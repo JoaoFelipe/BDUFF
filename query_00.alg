@@ -1,1 +1,0 @@
-=(projeto,,,query_00)

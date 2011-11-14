@@ -765,12 +765,12 @@ void executaSelecao(char *a, char *z, Condicao c)
 	fscanf(ctl, "\n%s", temp);				/*lido.*/
 	if (strcmp(c.val, "*"))
 	{
-        printf("fiz uma busca por =\n");
+        /*printf("fiz uma busca por =\n");*/
 		while (!feof(ctl))		/*Caso haja, é preciso descobrir a posição do*/
 		{						/*atributo.*/
 			
             if (strstr(temp, c.atr1)) break;
-            printf("%i\n", strstr(temp, c.atr1));
+            /*printf("%i\n", strstr(temp, c.atr1));*/
 			fscanf(ctl, "\n%s", temp);
 			pos++;
 		}
@@ -894,23 +894,19 @@ void decSelecao(char *s, char *a, char *z, Condicao *c)
 	char *ptr;
 
 /* Variáveis: temp -> usada na manipulação dos atributos que serão lidos.
-			  ptr -> usada para percorrer a string s. */
-			  
+			  ptr -> usada para percorrer a string s. */	  
     ptr = strchr(s, '(');
     strncpy(c->opr, s, ptr - s);
     c->opr[ptr - s] = 0;		/*O conteúdo é copiado para c.opr.*/
     temp = ++ptr;
-
 	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
 	strncpy(a, temp, ptr - temp);
 	a[ptr - s] = 0;		/*O conteúdo é copiado para a.*/
 	temp = ++ptr;
-	
 	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
 	strncpy(c->atr1, temp, ptr - temp);
 	c->atr1[ptr - temp] = 0;		/*O conteúdo é copiado para c->atr1.*/
 	temp = ++ptr;
-	
 	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
 	strncpy(c->val, temp, ptr - temp);
 	c->val[ptr - temp] = 0;		/*O conteúdo é copiado para c->val.*/

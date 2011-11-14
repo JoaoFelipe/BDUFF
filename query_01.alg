@@ -1,1 +1,0 @@
-=(empregado,,,query_01)
