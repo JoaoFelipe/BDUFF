@@ -1,0 +1,1 @@
+<(CASA,SALARIO,15000,query_0E)

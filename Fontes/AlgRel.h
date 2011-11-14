@@ -57,17 +57,27 @@ Tabela decTabela(FILE *ctl, FILE *dad);
 int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo);
 
 
+/* Descrição: Faz uma busca sequencial dentro de um arquivo de tuplas, em
+   relação a determinado atributo.
+   Parâmetros: arq é um ponteiro para o arquivo. c é a condicao que contem o
+   valor a ser buscado e o operador da condicao. pos
+   é a ordem do atributo (posição dentro da tupla).
+   Valor de retorno: retorna a posição da primeira tupla contendo k. Caso não 
+   exista, retorna -1.*/
+int buscaSeqSelect(FILE *arq, Condicao c, int pos, int ord, int tipo);
+
+
 /* Funções da álgebra relacional */
 
 
 /* Descrição: Executa a operação da álgebra de seleção.
-   Parâmetros: a é a tabela de origem. z é a tabela de destino. atrib é o valor 
-   a ser comparado (para as tuplas selecionadas). tipo é o tipo do atributo. pos
-   é a ordem do atributo da seleção (posição dentro da tupla). chv diz se o
-   atributo é chave (nesse caso, basta uma busca). ord diz se a relação está
-   ordenada pelo atributo. nTuplas é o
+   Parâmetros: a é a tabela de origem. z é a tabela de destino. c a condicao que
+   possui o valor a ser comparado (para as tuplas selecionadas) e o operador.
+   tipo é o tipo do atributo. pos é a ordem do atributo da seleção 
+   posição dentro da tupla). chv diz se o atributo é chave (nesse caso, basta 
+   uma busca). ord diz se a relação está ordenada pelo atributo. nTuplas é o
    número de tuplas na relação.*/
-void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
+void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
                                                       int ord, int nTuplas);
 
 /* Descrição: Executa a operação da álgebra de junção.

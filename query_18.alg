@@ -1,0 +1,1 @@
+>(CASA,SALARIO,800,query_18)

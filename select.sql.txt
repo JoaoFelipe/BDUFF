@@ -1,1 +1,2 @@
-select * from EMPREGADO;
+select * from CASA
+where CODIGO_E<>"004";

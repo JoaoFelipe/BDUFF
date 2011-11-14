@@ -310,8 +310,8 @@ int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo)
         recuperaValor(tupla, pos, atrib);
 
         if (!strcmp(k, atrib)){
-                        return(i);	/*Até que ele seja encontrado*/
-                        }
+           return(i);	/*Até que ele seja encontrado*/
+        }
         if (ord)
         {
            if (tipo == INTEGER)
@@ -331,7 +331,110 @@ int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo)
 	return(-1);		/*Se o arquivo terminou, o valor não existe*/
 }
 
-void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
+int buscaSeqSelect(FILE *arq, Condicao c, int pos, int ord, int tipo)
+{
+    char atrib[30], tupla[200];
+    int i = 0;
+    int ik = 0;
+    int iatrib = 0;
+
+/* Variáveis: atrib -> armazena o atributo pesquisado de cada tupla.
+			  tupla -> armazena cada tupla lida.
+			  i -> contador (marca a posição no arquivo).
+              ik -> representação inteira de k.
+              iatrib -> representação inteira de atrib. */
+
+    if (tipo == INTEGER)
+        ik = atoi(c.val);
+
+    fgets(tupla, 199, arq);
+    tupla[strlen(tupla) - 1] = '\0';
+
+    while (!feof(arq))	/*Compara o atributo em questão com o valor buscado*/
+    {
+        recuperaValor(tupla, pos, atrib);
+
+        if (!strcmp(c.opr, "=")) {
+            if (tipo == INTEGER) {   
+                if (atoi(c.val) == atoi(atrib)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }        
+            } else {
+                if (!strcmp(c.val, atrib)){
+                    return(i);	/*Até que ele seja encontrado*/
+                }
+            }
+        } else if (!strcmp(c.opr, "<")) {
+            if (tipo == INTEGER) {   
+                if (atoi(atrib) < atoi(c.val)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }      
+            } else {
+                if (strcmp(atrib, c.val) < 0){
+                    return(i);	/*Até que ele seja encontrado*/
+                } 
+            }
+        } else if (!strcmp(c.opr, ">")) {
+            if (tipo == INTEGER) {   
+                if (atoi(atrib) > atoi(c.val)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }      
+            } else {
+                if (strcmp(atrib, c.val) > 0){
+                    return(i);	/*Até que ele seja encontrado*/
+                } 
+            }
+        } else if (!strcmp(c.opr, "@")) {
+            if (tipo == INTEGER) {   
+                if (atoi(atrib) <= atoi(c.val)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }      
+            } else {
+                if (strcmp(atrib, c.val) <= 0){
+                    return(i);	/*Até que ele seja encontrado*/
+                } 
+            }
+        } else if (!strcmp(c.opr, "%")) {
+            if (tipo == INTEGER) {   
+                if (atoi(atrib) >= atoi(c.val)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }      
+            } else {
+                if (strcmp(atrib, c.val) >= 0){
+                    return(i);	/*Até que ele seja encontrado*/
+                } 
+            }
+        } else if (!strcmp(c.opr, "#")) {
+            if (tipo == INTEGER) {   
+                if (atoi(atrib) != atoi(c.val)){    
+                    return(i);	/*Até que ele seja encontrado*/
+                }      
+            } else {
+                if (strcmp(atrib, c.val) != 0){
+                    return(i);	/*Até que ele seja encontrado*/
+                } 
+            }
+        }
+        if (ord)
+        {
+           if (tipo == INTEGER)
+           {
+               iatrib = atoi(atrib);
+               if (ik < iatrib)
+                  return (-1);
+           }
+           else
+               if (strcmp(c.val, atrib) < 0)
+                  return (-1);
+        }
+        fgets(tupla, 199, arq);
+        tupla[strlen(tupla) - 1] = '\0';
+        i++;
+    }										/*ou que o arquivo termine*/
+	return(-1);		/*Se o arquivo terminou, o valor não existe*/
+}
+
+void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
                                                       int ord, int nTuplas)
 {
 	FILE *dadA, *dadZ;
@@ -352,7 +455,7 @@ void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
 			  número de tuplas na tabela resultante.
 			  tamA -> número de atributos da tabela de entrada. */
 
-	if (strcmp(atrib, "*"))	/*Se atrib = "*", não existe condição.*/
+	if (strcmp(c.val, "*"))	/*Se c.val = "*", não existe condição e entra no if.*/
 	{
 		strcpy(temp, a);	/*Abertura do arquivo .dad da tabela de entrada.*/
 		strcat(temp, ".dad");
@@ -360,8 +463,8 @@ void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
 		strcpy(temp, z);	/*Abertura do arquivo .dad da tabela de saída.*/
 		strcat(temp, ".dad");
 		dadZ = fopen(temp, "a");
-	    printf("%s\n",atrib);
-        i = buscaSeq(dadA, atrib, pos, ord, tipo);
+	    printf("%s\n",c.val);
+        i = buscaSeqSelect(dadA, c, pos, ord, tipo);
 	    if (i != -1)
     	{
             desloca(dadA, i);
@@ -373,7 +476,7 @@ void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
       	    if (!chv)
            	{
 	            desloca(dadA, ++i);
-    	        j = buscaSeq(dadA, atrib, pos, ord, tipo);
+    	        j = buscaSeqSelect(dadA, c, pos, ord, tipo);
       	        while (j != -1)
       		    {
                		i += j;
@@ -384,8 +487,8 @@ void selecao(char *a, char *z, char *atrib, int tipo, int pos, int chv,
 		        	fprintf(dadZ, "%s\n", tupla);
 			        n++;
                	    desloca(dadA, ++i);
-           		        	printf("%s | %s\n", tupla,atrib);
-	       			j = buscaSeq(dadA, atrib, pos, ord, tipo);
+		        	/*printf("%s | %s\n", tupla,c.val);   DESCOMENTE*/
+	       			j = buscaSeqSelect(dadA, c, pos, ord, tipo);
 		        }
     	   	}
         }
@@ -765,12 +868,9 @@ void executaSelecao(char *a, char *z, Condicao c)
 	fscanf(ctl, "\n%s", temp);				/*lido.*/
 	if (strcmp(c.val, "*"))
 	{
-        /*printf("fiz uma busca por =\n");*/
 		while (!feof(ctl))		/*Caso haja, é preciso descobrir a posição do*/
 		{						/*atributo.*/
-			
             if (strstr(temp, c.atr1)) break;
-            /*printf("%i\n", strstr(temp, c.atr1));*/
 			fscanf(ctl, "\n%s", temp);
 			pos++;
 		}
@@ -779,7 +879,7 @@ void executaSelecao(char *a, char *z, Condicao c)
 	chv = (int) strstr(temp, "chv");	/*e se o atributo é chave.*/
 	if (strstr(temp, "C")) tipo = 1;
 	fclose(ctl);
-	selecao(a, z, c.val, tipo, pos, chv, ord, nTuplas);
+	selecao(a, z, c, tipo, pos, chv, ord, nTuplas);
 
 }
 
