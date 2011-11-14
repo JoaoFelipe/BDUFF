@@ -1,1 +1,0 @@
-S(PROJETO,NUMERO=1,query_02)

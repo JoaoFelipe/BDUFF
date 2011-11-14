@@ -1,1 +1,1 @@
-S(projeto,,query_00)
+=(projeto,,,query_00)

@@ -22,6 +22,7 @@ typedef struct Condicao
 			char atr1[20];	/*Nome do primeiro atributo*/
 			char atr2[20];	/*Nome do segundo atributo*/
 			char val[30];	/*Constante a ser comparada*/
+			char opr[2];    /*Operando da condicao*/
 		}Condicao;
 
 typedef struct Referenciada

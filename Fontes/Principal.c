@@ -29,6 +29,7 @@ int main(int argc, char *argv[]){
 		system("pause");
 	    exit(1);
 	}
+  
 
     if(arquivo != NULL)
         interpreta(arquivo);	/*Chamada à função de interpretação dos comandos*/

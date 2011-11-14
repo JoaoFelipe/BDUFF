@@ -985,9 +985,7 @@ int select(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrde
         return 1;
     }
     opr[0] = '\0';
-    strcpy(opr, "S(");
-    strcat(opr, tab);
-    strcat(opr, ",");
+    
 
     if (cond) /*Se há condição de seleção,*/
     {
@@ -1000,9 +998,20 @@ int select(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrde
             erroSelect(erro, tab, cond->atr1);
             return 1;
         }
+        strcpy(opr, cond->opr);
+        strcat(opr, "(");
+        strcat(opr, tab);
+        strcat(opr, ",");
         strcat(opr, cond->atr1);
-        strcat(opr, "=");
+        strcat(opr, ",");
         strcat(opr, cond->val);
+    } 
+    else 
+    {
+        strcpy(opr, "=(");
+        strcat(opr, tab);
+        strcat(opr, ",");
+        strcat(opr, ",");
     }
 
     geraNomeAlg(alg); /*Escolhe o nome do arquivo .alg*/
@@ -1041,6 +1050,7 @@ int select(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrde
     if (cond)
         fmemCabecalho(&c);
     algstream = fopen(alg, "r"); /*Reabre o arquivo .alg.*/
+    
     executaAlg(algstream, isDistinct, isOrderBy); /*Chama a função que executa as operações da álgebra relacional.*/
     strcpy(ctl, query);
     strcat(ctl, ".ctl");

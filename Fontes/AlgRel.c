@@ -765,9 +765,12 @@ void executaSelecao(char *a, char *z, Condicao c)
 	fscanf(ctl, "\n%s", temp);				/*lido.*/
 	if (strcmp(c.val, "*"))
 	{
+        printf("fiz uma busca por =\n");
 		while (!feof(ctl))		/*Caso haja, é preciso descobrir a posição do*/
 		{						/*atributo.*/
-			if (strstr(temp, c.atr1)) break;
+			
+            if (strstr(temp, c.atr1)) break;
+            printf("%i\n", strstr(temp, c.atr1));
 			fscanf(ctl, "\n%s", temp);
 			pos++;
 		}
@@ -892,31 +895,33 @@ void decSelecao(char *s, char *a, char *z, Condicao *c)
 
 /* Variáveis: temp -> usada na manipulação dos atributos que serão lidos.
 			  ptr -> usada para percorrer a string s. */
+			  
+    ptr = strchr(s, '(');
+    strncpy(c->opr, s, ptr - s);
+    c->opr[ptr - s] = 0;		/*O conteúdo é copiado para c.opr.*/
+    temp = ++ptr;
 
-	ptr = strchr(s, ',');	/*O nome da primeira tabela é delimitado por ','.*/
-	strncpy(a, s, ptr - s);
+	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
+	strncpy(a, temp, ptr - temp);
 	a[ptr - s] = 0;		/*O conteúdo é copiado para a.*/
 	temp = ++ptr;
-	ptr = strchr(temp, '='); /*O atributo da condição é delimitado por '='.*/
-	if (ptr == NULL)		/*Se o '=' não é encontrado, não existe condição.*/
+	
+	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
+	strncpy(c->atr1, temp, ptr - temp);
+	c->atr1[ptr - temp] = 0;		/*O conteúdo é copiado para c->atr1.*/
+	temp = ++ptr;
+	
+	ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
+	strncpy(c->val, temp, ptr - temp);
+	c->val[ptr - temp] = 0;		/*O conteúdo é copiado para c->val.*/
+	if (strlen(c->val) == 0)		/*Se o c->val não é encontrado, não existe condição.*/
 	{
 		strcpy(c->val, "*");
-		ptr = strchr(temp, ',');
-	}
-	else	/*Caso contrário, o atributo é lido,*/
-	{
-		strncpy(c->atr1, temp, ptr - temp);
-		c->atr1[ptr - temp] = 0;
-		temp = ++ptr;
-		ptr = strchr(temp, ',');	/*Assim como o valor a ser comparado.*/
-		strncpy(c->val, temp, ptr - temp);
-		c->val[ptr - temp] = 0;
-        if (c->val[0] == '"')		/*Se o atributo é uma string, é preciso*/
-        {							/*tirar as aspas.*/
-            strncpy(c->val, &(c->val[1]), strlen(c->val) - 2);
-            c->val[strlen(c->val) - 2] = 0;
-        }
-	}
+	} else if (c->val[0] == '"')		/*Se o atributo é uma string, é preciso*/
+    {							/*tirar as aspas.*/
+        strncpy(c->val, &(c->val[1]), strlen(c->val) - 2);
+        c->val[strlen(c->val) - 2] = 0;
+    }
 	temp = ++ptr;		/*Por último, temos o nome da tabela de destino,*/
 	ptr = strchr(temp, ')');	/*delimitado por ')'.*/
 	strncpy(z, temp, ptr - temp);
@@ -1037,15 +1042,8 @@ void executaOperacao(char *s, char *nomeA,int isDistinct, int isOrderBy)
 			  listaAtrib -> lista de atributos da projecao.
 			  c -> condição.*/
 
-    if (s[0] == 'S') /*O primeiro caracter diz qual é a operação.*/
-	{
 
-		decSelecao(&s[2], a, z, &c);	/*No caso da seleção, os atributos são */
-        executaSelecao(a, z, c);			/*lidos, e a operação é executada.*/
-        strcpy(nomeA, a);
-
-	}
-	else if (s[0] == 'J')
+	if (s[0] == 'J')  /*O primeiro caracter diz qual é a operação.*/
 	{
 		decJuncao(&s[2], a, b, z, &c);	/*O mesmo acontece com a junção.*/
 		executaJuncao(a, b, z, nomeA, c);
@@ -1056,7 +1054,12 @@ void executaOperacao(char *s, char *nomeA,int isDistinct, int isOrderBy)
 		decProjecao(&s[2], a, z, listaAtrib);	/*O mesmo acontece com a junção.*/
 
 		executaProjecao(a, z, listaAtrib,isDistinct, isOrderBy);
-	}
+
+	} else { /*Se for selecao.*/
+		decSelecao(&s[0], a, z, &c);	/*No caso da seleção, os atributos são */
+        executaSelecao(a, z, c);			/*lidos, e a operação é executada.*/
+        strcpy(nomeA, a);       
+    }
 }
 
 void executaAlg(FILE *alg,int isDistinct, int isOrderBy)

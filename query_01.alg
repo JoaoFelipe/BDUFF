@@ -1,1 +1,1 @@
-S(empregado,,query_01)
+=(empregado,,,query_01)

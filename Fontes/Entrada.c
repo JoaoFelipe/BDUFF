@@ -654,16 +654,64 @@ int analisaSelect(char *cmd)
     /* GM: Fim da remoção do ORDER BY do texto */
 
 
-
-
-    if ((ch = strchr(gmcondicao, '=')) == NULL) return(COMPARACAO_INVLD);
-    strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '=', pois*/
-    c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-    normaliza(c.atr1);
-    strncpy(c.val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao)));
-    c.val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';
-
-
+    
+    if ((ch = strchr(gmcondicao, '=')) != NULL) 
+    {
+        strncpy(c.val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
+        c.val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do = */
+       
+        strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '=', pois*/
+        c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+        normaliza(c.atr1);
+        
+       
+        if ((ch = strchr(gmcondicao, '>')) != NULL) 
+        {
+            strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '>', pois*/
+            c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+            normaliza(c.atr1); 
+            c.opr[0] = '%';
+        } else if ((ch = strchr(gmcondicao, '<')) != NULL) 
+        {
+            strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
+            c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+            normaliza(c.atr1);
+            c.opr[0] = '@';
+        } else {
+            c.opr[0] = '=';
+        }  
+        c.opr[1] = '\0';
+    } else if ((ch = strchr(gmcondicao, '>')) != NULL) {
+        strncpy(c.val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
+        c.val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do > */
+       
+        strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '>', pois*/
+        c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+        normaliza(c.atr1);
+        
+        if ((ch = strchr(gmcondicao, '<')) != NULL) 
+        {
+            strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
+            c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+            normaliza(c.atr1); 
+            c.opr[0] = '#';
+        } else {
+            c.opr[0] = '>';
+        }     
+        c.opr[1] = '\0';
+    } else if ((ch = strchr(gmcondicao, '<')) != NULL) {
+        strncpy(c.val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
+        c.val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do < */
+       
+        strncpy(c.atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
+        c.atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
+        normaliza(c.atr1);
+        c.opr[0] = '<';
+        c.opr[1] = '\0';
+    } else {
+        return(COMPARACAO_INVLD);
+    }
+             
     select(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a função chega aqui, temos um select com condição c.*/
     printf("Selecao conluida!");
     return(0);
