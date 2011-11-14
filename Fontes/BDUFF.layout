@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="default" />
+	<File name="AlgRel.c" open="1" top="0" tabpos="6">
+		<Cursor position="9409" topLine="228" />
+	</File>
+	<File name="Entrada.c" open="1" top="1" tabpos="1">
+		<Cursor position="16474" topLine="512" />
+	</File>
+	<File name="Entrada.h" open="1" top="0" tabpos="10">
+		<Cursor position="2847" topLine="61" />
+	</File>
+	<File name="ErrMsgs.c" open="1" top="0" tabpos="5">
+		<Cursor position="1997" topLine="31" />
+	</File>
+	<File name="ErrMsgs.h" open="1" top="0" tabpos="4">
+		<Cursor position="715" topLine="15" />
+	</File>
+	<File name="Estruturas.c" open="1" top="0" tabpos="8">
+		<Cursor position="8466" topLine="390" />
+	</File>
+	<File name="Estruturas.h" open="1" top="0" tabpos="9">
+		<Cursor position="2276" topLine="48" />
+	</File>
+	<File name="Principal.c" open="1" top="0" tabpos="7">
+		<Cursor position="503" topLine="8" />
+	</File>
+	<File name="SQL.c" open="1" top="0" tabpos="3">
+		<Cursor position="61316" topLine="1945" />
+	</File>
+	<File name="SQL.h" open="1" top="0" tabpos="2">
+		<Cursor position="8703" topLine="170" />
+	</File>
+</CodeBlocks_layout_file>
+[Editors]
+Focused=0
+Order=10,9,5,1,8,7,4,2,0,6,3
+[Editor_0]
+Open=1
+Top=1
+CursorCol=67
+CursorRow=34
+TopLine=1
+LeftChar=1
+[Editor_1]
+Open=1
+Top=0
+CursorCol=39
+CursorRow=122
+TopLine=103
+LeftChar=1
+[Editor_2]
+Open=1
+Top=0
+CursorCol=1
+CursorRow=75
+TopLine=75
+LeftChar=1
+[Editor_3]
+Open=1
+Top=0
+CursorCol=37
+CursorRow=234
+TopLine=1
+LeftChar=1
+[Editor_4]
+Open=1
+Top=0
+CursorCol=10
+CursorRow=254
+TopLine=325
+LeftChar=1
+[Editor_5]
+Open=1
+Top=0
+CursorCol=7
+CursorRow=746
+TopLine=720
+LeftChar=1
+[Editor_6]
+Open=1
+Top=0
+CursorCol=19
+CursorRow=1288
+TopLine=1260
+LeftChar=1
+[Editor_7]
+Open=1
+Top=0
+CursorCol=9
+CursorRow=23
+TopLine=1
+LeftChar=1
+[Editor_8]
+Open=1
+Top=0
+CursorCol=19
+CursorRow=42
+TopLine=18
+LeftChar=1
+[Editor_9]
+Open=1
+Top=0
+CursorCol=1
+CursorRow=154
+TopLine=125
+LeftChar=1
+[Editor_10]
+Open=1
+Top=0
+CursorCol=20
+CursorRow=952
+TopLine=926
+LeftChar=1

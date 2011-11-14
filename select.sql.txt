@@ -1,0 +1,5 @@
+select * from projeto;
+
+select * from empregado;
+
+select * from produto;

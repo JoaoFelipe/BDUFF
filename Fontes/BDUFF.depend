@@ -1,0 +1,99 @@
+# depslib dependency file v1.0
+1289779177 source:g:\uff\progc++\bduff\fontes\entrada.c
+	<stdio.h>
+	<string.h>
+	"Entrada.h"
+
+1225157882 g:\uff\progc++\bduff\fontes\entrada.h
+	<stdio.h>
+	"SQL.h"
+
+1289742591 g:\uff\progc++\bduff\fontes\sql.h
+	<stdio.h>
+	"AlgRel.h"
+
+1278868474 g:\uff\progc++\bduff\fontes\algrel.h
+	"ErrMsgs.h"
+
+1289779090 g:\uff\progc++\bduff\fontes\errmsgs.h
+	<stdlib.h>
+	"Estruturas.h"
+
+1278254896 g:\uff\progc++\bduff\fontes\estruturas.h
+
+1289779115 source:g:\uff\progc++\bduff\fontes\errmsgs.c
+	<stdio.h>
+	"ErrMsgs.h"
+
+1289405290 source:g:\uff\progc++\bduff\fontes\estruturas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Estruturas.h"
+
+1289406759 source:g:\uff\progc++\bduff\fontes\principal.c
+	<stdlib.h>
+	"Entrada.h"
+
+1289779493 source:g:\uff\progc++\bduff\fontes\sql.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"SQL.h"
+
+1289405313 source:g:\uff\progc++\bduff\fontes\algrel.c
+	<stdio.h>
+	<string.h>
+	"AlgRel.h"
+
+1289855859 source:h:\uff\progc++\bduff\fontes\entrada.c
+	<stdio.h>
+	<string.h>
+	"Entrada.h"
+
+1225157882 h:\uff\progc++\bduff\fontes\entrada.h
+	<stdio.h>
+	"SQL.h"
+
+1289742591 h:\uff\progc++\bduff\fontes\sql.h
+	<stdio.h>
+	"AlgRel.h"
+
+1278868474 h:\uff\progc++\bduff\fontes\algrel.h
+	"ErrMsgs.h"
+
+1289779090 h:\uff\progc++\bduff\fontes\errmsgs.h
+	<stdlib.h>
+	"Estruturas.h"
+
+1278254896 h:\uff\progc++\bduff\fontes\estruturas.h
+
+1289779115 source:h:\uff\progc++\bduff\fontes\errmsgs.c
+	<stdio.h>
+	"ErrMsgs.h"
+
+1289405290 source:h:\uff\progc++\bduff\fontes\estruturas.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Estruturas.h"
+
+1289779617 source:h:\uff\progc++\bduff\fontes\principal.c
+	<stdlib.h>
+	"Entrada.h"
+
+1289855685 source:h:\uff\progc++\bduff\fontes\sql.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"SQL.h"
+
+1289405313 source:h:\uff\progc++\bduff\fontes\algrel.c
+	<stdio.h>
+	<string.h>
+	"AlgRel.h"
+
