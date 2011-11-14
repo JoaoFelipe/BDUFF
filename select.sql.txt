@@ -1,2 +1,2 @@
 select * from CASA
-where CODIGO_E<>"004";
+where NUM_PROJ<>1000;

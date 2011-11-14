@@ -473,8 +473,8 @@ void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
 	    	fprintf(dadZ, "%s\n", tupla);
 
     	    n++;
-      	    if (!chv)
-           	{
+      	    /*if (!chv)
+           	{*/
 	            desloca(dadA, ++i);
     	        j = buscaSeqSelect(dadA, c, pos, ord, tipo);
       	        while (j != -1)
@@ -490,7 +490,7 @@ void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
 		        	/*printf("%s | %s\n", tupla,c.val);   DESCOMENTE*/
 	       			j = buscaSeqSelect(dadA, c, pos, ord, tipo);
 		        }
-    	   	}
+    	   	/*}*/
         }
 
 		fclose(dadA);	/*O arquivo de dados é gerado.*/
