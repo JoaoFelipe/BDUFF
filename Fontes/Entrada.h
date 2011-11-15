@@ -113,6 +113,14 @@ int analisaDelete(char *cmd);
    em caso de erro (vide ErrMsgs.c).*/
 int analisaUpdate(char *cmd);
 
+
+
+/* Descrição: verifica uma condicao sintaticamente.
+   Parâmetros: gmcondicao é a string que contém a selecao. c é a condicao que será retornada
+   Valor de retorno: retorna zero em caso de sucesso. Retorna um valor positivo
+   em caso de erro (vide ErrMsgs.c).*/
+int verificarCondicao(char *gmcondicao, Condicao *c);
+
 /* Descrição: analisa um comando SELECT sintaticamente, decodifica o nome 
    da tabela e a condição de seleção. Caso haja uma condição de join, o comando
    é repassado para decodificação dessa condição. Caso contrário, os parâmetros

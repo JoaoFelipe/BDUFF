@@ -1119,7 +1119,6 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
      da condição de junção.
      scondA1    -> nº da relação à qual pertence o atributo
      da condição de seleção. */
-
     strcpy(ctl, tab1);
     strcat(ctl, ".ctl");
     if ((ctlstream1 = fopen(ctl, "r")) == NULL) /*Abre os arquivos .ctl.*/
@@ -1193,7 +1192,9 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         return 1;
     }
     if (jcondA1 == 2)
+    {
         swap(jcond.atr1, jcond.atr2);
+    }
     /*Se o atributo 1 pertence à tabela 2 e o atributo 2 à tabela 1, troca.*/
 
     erro = validaCondJun(jcond, c1, c2);
@@ -1205,7 +1206,6 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         erroJoin(erro, tab1, tab2, jcond);
         return 1;
     }
-
     geraNomeAlg(alg); /*Escolhe o nome do arquivo .alg*/
     strncpy(query, alg, 8); /*<query> recebe o nome da relação resultante.*/
     query[8] = '\0';
@@ -1265,14 +1265,15 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
                 return 1;
             }
         }
-        strcpy(sopr, "S(");
+        strcpy(sopr, scond->opr);
+        strcat(sopr, "(");
         if (scondA1 == 1)
             strcat(sopr, tab1);
         else
             strcat(sopr, tab2);
         strcat(sopr, ",");
         strcat(sopr, scond->atr1);
-        strcat(sopr, "=");
+        strcat(sopr, ",");
         strcat(sopr, scond->val);
 
         strcpy(jopr, "J(");
@@ -1294,18 +1295,16 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         strcat(jopr, "=");
         strcat(jopr, jcond.atr2);
     }
-
     if (strcasecmp(listaAtrib, "*"))
     {
         strcpy(popr, "P(");
         strcat(popr, query);
         strcat(popr, "j,");
-	sprintf(atribCount, "%i", contaVirgulas(listaAtrib) + 1); 
+        sprintf(atribCount, "%i", contaVirgulas(listaAtrib) + 1); 
         strcat(popr, atribCount);
         strcat(popr, ",");
         strcat(popr, listaAtrib);
     }
-
     if ((algstream = fopen(alg, "w")) == NULL) /*Cria o arquivo .alg*/
     {
         fmemCabecalho(&c1);
@@ -1320,8 +1319,8 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         fprintf(algstream, "j)\n%s,%s", popr, query);
     fprintf(algstream, ")\n");
     fclose(algstream);
-    fmemCabecalho(&c1);
-    fmemCabecalho(&c2);
+    /*fmemCabecalho(&c1);*/
+    
 
     algstream = fopen(alg, "r"); /*Reabre o arquivo .alg.*/
     executaAlg(algstream, 0, 0); /*Chama a função que executa as operações da álgebra relacional.*/
@@ -1339,12 +1338,12 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         erroSelect(ERRO_ABRIR_DAD_S, query, scond->atr1);
         return 1;
     }
-
     t = decTabela(ctlstream1, dadstream1); /*Recupera as informações*/
     fclose(ctlstream1); /*da relação gerada.*/
     fclose(dadstream1);
     imprimeTabela(query, t,0,0,0,0,0); /*Exibe a relação gerada na tela.*/
     fmemCabecalho(&c1);
+    fmemCabecalho(&c2);
     fmemRelacao(&r);
     return 0;
 }

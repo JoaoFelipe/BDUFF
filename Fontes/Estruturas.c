@@ -160,9 +160,13 @@ void fmemCabecalho (Cabecalho **c)
         aux = (*c)->next;
         while (aux != (*c))
         {
+            printf("%s", aux->atributo.nome);
               fmemAtributo(&(aux->atributo));
               aux = aux->next;
-              free(aux->prev);
+              if (aux->prev) {
+                free(aux->prev);
+              } else {
+              }
         }
         free(aux);
      }

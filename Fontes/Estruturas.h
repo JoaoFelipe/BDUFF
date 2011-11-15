@@ -18,12 +18,12 @@
             - se atr2 = "", condição é 'atr1 = val' (condição de seleção).
             - se valor = "", condição é 'atr1 = atr2' (condição de junção). */
 typedef struct Condicao	
-		{
-			char atr1[20];	/*Nome do primeiro atributo*/
-			char atr2[20];	/*Nome do segundo atributo*/
-			char val[30];	/*Constante a ser comparada*/
-			char opr[2];    /*Operando da condicao*/
-		}Condicao;
+        {
+            char atr1[20];	/*Nome do primeiro atributo*/
+            char atr2[20];	/*Nome do segundo atributo*/
+            char val[30];	/*Constante a ser comparada*/
+            char opr[2];    /*Operando da condicao*/
+        }Condicao;
 
 typedef struct Referenciada
         {
@@ -35,18 +35,18 @@ typedef struct Referenciada
 /* Atributo é definido por nome, tipo (0 => inteiro, 1 => string),
    Key (0 => não é chave, 1 => é) e Ord (0 => não ordenar, 1 => ordenar) */
 typedef struct Atributo
-		{
-			char nome[20];	        /*Nome do atributo*/
-			unsigned int tipo :1 ;	/*Tipo do atributo*/
-			unsigned int key :1 ;	/*Indica se o atributo é chave*/
-			unsigned int fkey :1 ;	/*Indica se o atributo é chave estrangeira*/
-			char f_referencia[20];   /*Indica a tabela referenciada pela chave estrangeira*/
+        {
+            char nome[20];	        /*Nome do atributo*/
+            unsigned int tipo :1 ;	/*Tipo do atributo*/
+            unsigned int key :1 ;	/*Indica se o atributo é chave*/
+            unsigned int fkey :1 ;	/*Indica se o atributo é chave estrangeira*/
+            char f_referencia[20];   /*Indica a tabela referenciada pela chave estrangeira*/
             Referenciada *f_referenciada;   /*Indica as tabelas que referenciam essa tabela*/
             unsigned int tipo_ref :1 ;	/*Indica se é cascade ou restrict. Default restrict*/
             unsigned int conta_ref ;	/*Indica quantas referencias existem a essa tabela*/
-			unsigned int ord :1 ;	/*Indica se a relação é ordenada*/
-		}Atributo;                  /*pelo atributo*/
-		
+            unsigned int ord :1 ;	/*Indica se a relação é ordenada*/
+        }Atributo;                  /*pelo atributo*/
+        
 /* Cabeçalho de uma tabela (lista duplamente encadeada circular de atributos). */
 typedef struct Cabecalho
         {

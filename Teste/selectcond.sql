@@ -1,3 +1,3 @@
 SELECT *
-FROM PROJETO
+FROM projeto
 WHERE NOME_P="P1";
