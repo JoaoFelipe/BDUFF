@@ -592,7 +592,7 @@ int analisaSelect(char *cmd)
     if (cmd[j - 1] == 0)					/*Se o comando acabou, é um select sem*/
     {
         /*condição.*/
-        select(nome, listaAtrib, NULL,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);
+        selectSQL(nome, listaAtrib, NULL,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);
         return(0);
     }
 
@@ -712,7 +712,7 @@ int analisaSelect(char *cmd)
         return(COMPARACAO_INVLD);
     }
              
-    select(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a função chega aqui, temos um select com condição c.*/
+    selectSQL(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a função chega aqui, temos um select com condição c.*/
     printf("Selecao conluida!");
     return(0);
 }

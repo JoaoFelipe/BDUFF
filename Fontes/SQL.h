@@ -73,7 +73,7 @@ int updateAll(char *tab, char *atrib, char *valor);
                 Atualização 2010.2
                 isCount,isSum,isMin,isMax,isAvg*/
 
-int select (char *tab, char *listaAtrib, Condicao *cond,int isDistinct, int isOrderBy,int isCount,int isSum,int isMin, int isMax,int isAvg);
+int selectSQL(char *tab, char *listaAtrib, Condicao *cond,int isDistinct, int isOrderBy,int isCount,int isSum,int isMin, int isMax,int isAvg);
 
 /* Descrição: cria um arquivo c/ a seqüência de operações algébricas
               necessárias para execução de um comando "SELECT" (com "JOIN"),

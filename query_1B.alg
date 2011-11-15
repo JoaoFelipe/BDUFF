@@ -1,1 +1,0 @@
-%(CASA,SALARIO,800,query_1B)

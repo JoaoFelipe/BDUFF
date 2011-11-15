@@ -1,1 +1,0 @@
-=(CASA,SALARIO,15000,query_06)

@@ -45,7 +45,7 @@ all: BDUFF.exe
 BDUFF.exe: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cygwin C++ Linker'
-	g++  -o"BDUFF.exe" $(OBJS) $(USER_OBJS) $(LIBS)
+	gcc  -o"BDUFF.exe" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

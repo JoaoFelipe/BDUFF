@@ -1,1 +1,0 @@
-#(CASA,NOME_E,"DIONNI",query_1D)

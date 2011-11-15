@@ -1,1 +1,0 @@
-S(CASA,NUM_PROJ=1000,query_22)

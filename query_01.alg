@@ -1,1 +1,0 @@
->(CASA,SALARIO,0,query_01)

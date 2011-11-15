@@ -1,1 +1,0 @@
-<(CASA,NOME_E,"VALDISNEI",query_17)

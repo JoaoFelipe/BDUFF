@@ -937,7 +937,7 @@ int updateAll(char *tab, char *atrib, char *valor)
     return 0;
 }
 
-int select(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrderBy,int isCount,int isSum,int isMin,int isMax, int isAvg)
+int selectSQL(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrderBy,int isCount,int isSum,int isMin,int isMax, int isAvg)
 {
     void strToUpper(char *str);
     /* Passa uma string para seu equivalente c/ letras maiúsculas.
@@ -1035,7 +1035,7 @@ int select(char *tab, char *listaAtrib, Condicao *cond,int isDistinct,int isOrde
         strcat(opr, "P(");
         strcat(opr, query);
         strcat(opr, "s,");
-        itoa(contaVirgulas(listaAtrib) + 1, atribCount, 10);
+        sprintf(atribCount, "%i", contaVirgulas(listaAtrib) + 1); 
         strcat(opr, atribCount);
         strcat(opr, ",");
         strcat(opr, listaAtrib);
@@ -1300,7 +1300,7 @@ int join(char *tab1, char *tab2, char *listaAtrib, Condicao jcond,
         strcpy(popr, "P(");
         strcat(popr, query);
         strcat(popr, "j,");
-        itoa(contaVirgulas(listaAtrib) + 1, atribCount, 10);
+	sprintf(atribCount, "%i", contaVirgulas(listaAtrib) + 1); 
         strcat(popr, atribCount);
         strcat(popr, ",");
         strcat(popr, listaAtrib);
