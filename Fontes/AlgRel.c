@@ -1001,7 +1001,7 @@ void decSelecao(char *s, char *a, char *z, Condicao *c)
     temp = ++ptr;
     ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
     strncpy(a, temp, ptr - temp);
-    a[ptr - s] = 0;		/*O conteúdo é copiado para a.*/
+    a[ptr - temp] = 0;		/*O conteúdo é copiado para a.*/
     temp = ++ptr;
     ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
     strncpy(c->atr1, temp, ptr - temp);
@@ -1150,7 +1150,7 @@ void executaOperacao(char *s, char *nomeA,int isDistinct, int isOrderBy)
     } else { /*Se for selecao.*/
         decSelecao(&s[0], a, z, &c);	/*No caso da seleção, os atributos são */
         executaSelecao(a, z, c);			/*lidos, e a operação é executada.*/
-        strcpy(nomeA, a);       
+        strcpy(nomeA, a);
     }
 }
 

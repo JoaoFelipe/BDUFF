@@ -1,1 +1,1 @@
-select * from produto;
+select * from empregados;

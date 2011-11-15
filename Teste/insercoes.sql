@@ -15,33 +15,33 @@ INTO projeto
 VALUES(1,"P1");
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("001","ZEZINHO",500,1);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("002","ZEFINHA",400,2);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("003","VALDISNEI",600,3);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("004","ESTEFANO",800,4);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("005","ZILDA",300,1);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("006","DIONNI",900,1);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("007","BOND",15000,2);
 
 INSERT
-INTO casa
+INTO empregados
 VALUES("008","JUQUINHA",450,3);
