@@ -2116,28 +2116,30 @@ void imprimeTabela(char *nome, Tabela t,int isCount,int isSum,int isMin, int isM
         i = 20; /*<i> guarda o nº de tupla exibidas na janela atual menos 1.*/
         w = 0; /*<w> guarda o nº da janela atual.*/
         p = t.relacao;
-        do
-        {
-            if (i > 19) /*Se vai começar a exibir uma janela,*/
+        if (t.m != 0) {
+            do
             {
-                w++; /*atualiza o nº da janela,*/
-                printf("%s (%d/%d):\n", nome, w, nwin);/*escreve o nome da relação
-				 e o nº da janela,*/
-                for (i = 1; i <= 79; i++)
-                    printf("-");
-                printf("\n");
-                imprimeCabecalho(t.cabecalho, l); /*escreve o cabeçalho da tabela,*/
-                for (i = 1; i <= 79; i++)
-                    printf("-");
-                printf("\n");
-                i = 1; /*e reinicia o contador de linhas.*/
+                if (i > 19) /*Se vai começar a exibir uma janela,*/
+                {
+                    w++; /*atualiza o nº da janela,*/
+                    printf("%s (%d/%d):\n", nome, w, nwin);/*escreve o nome da relação
+                    e o nº da janela,*/
+                    for (i = 1; i <= 79; i++)
+                        printf("-");
+                    printf("\n");
+                    imprimeCabecalho(t.cabecalho, l); /*escreve o cabeçalho da tabela,*/
+                    for (i = 1; i <= 79; i++)
+                        printf("-");
+                    printf("\n");
+                    i = 1; /*e reinicia o contador de linhas.*/
+                }
+                imprimeTupla(p->tupla, l); /*Escreve cada linha (tupla) da tabela.*/
+                i++; /*Atualiza o contador de linhas.*/
+                /* if (i > 19) system("pause");*//*Se encerrou uma janela, pausa.*/
+                p = p->next;
             }
-            imprimeTupla(p->tupla, l); /*Escreve cada linha (tupla) da tabela.*/
-            i++; /*Atualiza o contador de linhas.*/
-            /* if (i > 19) system("pause");*//*Se encerrou uma janela, pausa.*/
-            p = p->next;
-        }
-        while (p != t.relacao);
+            while (p != t.relacao);
+        } 
         /* system("pause");*/
     }
 }
