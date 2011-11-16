@@ -1,163 +1,212 @@
 /********************************** AlgRel.h **********************************/
 
-/* Leitura e execuÁ„o das operaÁıes da ·lgebra relacional. */
+/* Leitura e execu√ß√£o das opera√ß√µes da √°lgebra relacional. */
 
 #include "ErrMsgs.h"
 
 
-/* FunÁıes de manipulaÁ„o de arquivos */
+/* Fun√ß√µes de manipula√ß√£o de arquivos */
 
 
-/* DescriÁ„o: Copia uma tabela inteira (arquivos .dad e .ctl).
-   Par‚metros: out È o nome da tabela de destino.
-   			   in È o nome da tabela de origem.*/
+/* Descri√ß√£o: Copia uma tabela inteira (arquivos .dad e .ctl).
+   Par√¢metros: out √© o nome da tabela de destino.
+   			   in √© o nome da tabela de origem.*/
 void cpyarq(char *out, char *in);
 
-/* DescriÁ„o: Desloca o ponteiro de um arquivo para uma determinada linha.
-   Par‚metros: arq È um ponteiro para o arquivo. n È o Ìndice da linha de 
+/* Descri√ß√£o: Desloca o ponteiro de um arquivo para uma determinada linha.
+   Par√¢metros: arq √© um ponteiro para o arquivo. n √© o √≠ndice da linha de 
    destino.*/
 void desloca(FILE *arq, int n);
 
-/* DescriÁ„o: recupera as informaÁıes sobre uma relaÁ„o.
-   Par‚metros: <stream> È a stream do arquivo de meta-dados da relaÁ„o
+/* Descri√ß√£o: recupera as informa√ß√µes sobre uma rela√ß√£o.
+   Par√¢metros: <stream> √© a stream do arquivo de meta-dados da rela√ß√£o
                         (aberto para leitura);
-               <n> È um ponteiro para uma vari·vel inteira;
-               <m> È um ponteiro para uma vari·vel inteira.
+               <n> √© um ponteiro para uma vari√°vel inteira;
+               <m> √© um ponteiro para uma vari√°vel inteira.
    Valor de retorno: retorna um ponteiro para uma lista c/ os atributos
-                     da relaÁ„o.
-   ObservaÁıes: na vari·vel apontada por <n> ser· armazenado o grau da relaÁ„o
+                     da rela√ß√£o.
+   Observa√ß√µes: na vari√°vel apontada por <n> ser√° armazenado o grau da rela√ß√£o
                 e, na apontada por <m>, a cardinalidade. */
 Cabecalho *decCatalogo (FILE *stream, int *n, int *m);
 
-/* DescriÁ„o: recupera os dados de uma relaÁ„o.
-   Par‚metros: <stream> È a stream do arquivo de dados da relaÁ„o
+/* Descri√ß√£o: recupera os dados de uma rela√ß√£o.
+   Par√¢metros: <stream> √© a stream do arquivo de dados da rela√ß√£o
                         (aberto para leitura).
    Valor de retorno: retorna um ponteiro para uma lista c/ as tuplas
-                     da relaÁ„o. */
+                     da rela√ß√£o. */
 Relacao *decRelacao(FILE *stream);
 
-/* DescriÁ„o: recupera os dados de uma tabela.
-   Par‚metros: <ctl> È a stream do arquivo de meta-dados da relaÁ„o
+/* Descri√ß√£o: recupera os dados de uma tabela.
+   Par√¢metros: <ctl> √© a stream do arquivo de meta-dados da rela√ß√£o
                         (aberto para leitura).
-               <dad> È a stream do arquivo de dados da relaÁ„o
+               <dad> √© a stream do arquivo de dados da rela√ß√£o
                         (aberto para leitura);
-   Valor de retorno: retorna uma vari·vel do tipo Tabela. */
+   Valor de retorno: retorna uma vari√°vel do tipo Tabela. */
 Tabela decTabela(FILE *ctl, FILE *dad);
 
 
-/* FunÁıes de manipulaÁ„o de busca */
+/* Fun√ß√µes de manipula√ß√£o de busca */
+
+typedef int (*COMPARAPTR)(char*, char*, int);
+
+/* Descri√ß√£o: Verifica se val = atrib de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaIgual(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica se val <> atrib de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaDiferente(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica se atrib < val de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaMenor(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica se atrib <= c.val de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaMenorIgual(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica se atrib > val de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaMaior(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica se atrib >= val de acordo com o tipo
+   Par√¢metros: atrib e val s√£o os valores a serem comparados.
+               tipo √© o tipo dos atributos, usado para especificar como √© a compara√ß√£o.
+   Valor de retorno: Retorna 1 caso a compara√ß√£o seja verdadeira
+                     ou 0 caso contr√°rio*/
+int comparaMaiorIgual(char *atrib, char *val, int tipo);
+
+/* Descri√ß√£o: Verifica qual √© o operador da condicao c e retorna uma fun√ß√£o de compara√ß√£o
+   Par√¢metros: c √© uma condicao que possui o atributo opr.
+   Valor de retorno: Retorna uma fun√ß√£o com assinatura COMPARAPTR, definida no typedef*/
+COMPARAPTR funcaoComparacao(Condicao c);
 
 
-/* DescriÁ„o: Faz uma busca sequencial dentro de um arquivo de tuplas, em
-   relaÁ„o a determinado atributo.
-   Par‚metros: arq È um ponteiro para o arquivo. k È o valor a ser buscado. pos
-   È a ordem do atributo (posiÁ„o dentro da tupla).
-   Valor de retorno: retorna a posiÁ„o da primeira tupla contendo k. Caso n„o 
+/* Descri√ß√£o: Faz uma busca sequencial dentro de um arquivo de tuplas, em
+   rela√ß√£o a determinado atributo.
+   Par√¢metros: arq √© um ponteiro para o arquivo. k √© o valor a ser buscado. pos
+   √© a ordem do atributo (posi√ß√£o dentro da tupla).
+   Valor de retorno: retorna a posi√ß√£o da primeira tupla contendo k. Caso n√£o 
    exista, retorna -1.*/
 int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo);
 
 
-/* DescriÁ„o: Faz uma busca sequencial dentro de um arquivo de tuplas, em
-   relaÁ„o a determinado atributo.
-   Par‚metros: arq È um ponteiro para o arquivo. c È a condicao que contem o
+/* Descri√ß√£o: Faz uma busca sequencial dentro de um arquivo de tuplas, em
+   rela√ß√£o a determinado atributo.
+   Par√¢metros: arq √© um ponteiro para o arquivo. c √© a condicao que contem o
    valor a ser buscado e o operador da condicao. pos
-   È a ordem do atributo (posiÁ„o dentro da tupla).
-   Valor de retorno: retorna a posiÁ„o da primeira tupla contendo k. Caso n„o 
+   √© a ordem do atributo (posi√ß√£o dentro da tupla).
+   Valor de retorno: retorna a posi√ß√£o da primeira tupla contendo k. Caso n√£o 
    exista, retorna -1.*/
 int buscaSeqSelect(FILE *arq, Condicao c, int pos, int ord, int tipo);
 
 
-/* FunÁıes da ·lgebra relacional */
+/* Fun√ß√µes da √°lgebra relacional */
 
 
-/* DescriÁ„o: Executa a operaÁ„o da ·lgebra de seleÁ„o.
-   Par‚metros: a È a tabela de origem. z È a tabela de destino. c a condicao que
+/* Descri√ß√£o: Executa a opera√ß√£o da √°lgebra de sele√ß√£o.
+   Par√¢metros: a √© a tabela de origem. z √© a tabela de destino. c a condicao que
    possui o valor a ser comparado (para as tuplas selecionadas) e o operador.
-   tipo È o tipo do atributo. pos È a ordem do atributo da seleÁ„o 
-   posiÁ„o dentro da tupla). chv diz se o atributo È chave (nesse caso, basta 
-   uma busca). ord diz se a relaÁ„o est· ordenada pelo atributo. nTuplas È o
-   n˙mero de tuplas na relaÁ„o.*/
+   tipo √© o tipo do atributo. pos √© a ordem do atributo da sele√ß√£o 
+   posi√ß√£o dentro da tupla). chv diz se o atributo √© chave (nesse caso, basta 
+   uma busca). ord diz se a rela√ß√£o est√° ordenada pelo atributo. nTuplas √© o
+   n√∫mero de tuplas na rela√ß√£o.*/
 void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
                                                       int ord, int nTuplas);
 
-/* DescriÁ„o: Executa a operaÁ„o da ·lgebra de junÁ„o.
-   Par‚metros: a e b s„o as tabelas de origem. z È a tabela de destino. tipo È o
-   tipo dos atributos da condiÁ„o. posA È a ordem do atributo da junÁ„o em a
-   (posiÁ„o dentro da tupla). posB È a ordem do atributo da junÁ„o em b (posiÁ„o
-   dentro da tupla). chv diz se o atributo È chave da tabela b (nesse caso,
-   basta uma busca). ord diz se a relaÁ„o b est· ordenada pelo atributo.
-   nTuplas È o n˙mero de tuplas na tabela b.*/
+/* Descri√ß√£o: Executa a opera√ß√£o da √°lgebra de jun√ß√£o.
+   Par√¢metros: a e b s√£o as tabelas de origem. z √© a tabela de destino. tipo √© o
+   tipo dos atributos da condi√ß√£o. posA √© a ordem do atributo da jun√ß√£o em a
+   (posi√ß√£o dentro da tupla). posB √© a ordem do atributo da jun√ß√£o em b (posi√ß√£o
+   dentro da tupla). chv diz se o atributo √© chave da tabela b (nesse caso,
+   basta uma busca). ord diz se a rela√ß√£o b est√° ordenada pelo atributo.
+   nTuplas √© o n√∫mero de tuplas na tabela b.*/
 void juncao(char *a, char *b, char *z, int tipo, int posA, int posB,
                  int chv, int ord, int nTuplas, char *nomeA);
 
-/* DescriÁ„o: Executa a operaÁ„o da ·lgebra de projeÁ„o.
-   Par‚metros: a È a tabela de origem. z È a tabela de destino. cols È um vetor
-   que contÈm os n˙meros das colunas a serem exibidas.*/
+/* Descri√ß√£o: Executa a opera√ß√£o da √°lgebra de proje√ß√£o.
+   Par√¢metros: a √© a tabela de origem. z √© a tabela de destino. cols √© um vetor
+   que cont√©m os n√∫meros das colunas a serem exibidas.*/
 void projecao(char *a, char *z, int cols[],int isDistinct, int isOrderBy);
 
 
-/* FunÁıes de interpretaÁ„o das funÁıes da ·lgebra (a partir do arquivo .alg) */
+/* Fun√ß√µes de interpreta√ß√£o das fun√ß√µes da √°lgebra (a partir do arquivo .alg) */
 
 
-/* DescriÁ„o: Prepara a chamada da funÁ„o de seleÁ„o propriamente dita. (LÍ 
-   informaÁıes como o n˙mero de tuplas e a ordem do atributo a ser comparado)
-   Par‚metros: a È a tabela de origem. z È a tabela de destino. c È a condiÁ„o
-   de junÁ„o.*/
+/* Descri√ß√£o: Prepara a chamada da fun√ß√£o de sele√ß√£o propriamente dita. (L√™ 
+   informa√ß√µes como o n√∫mero de tuplas e a ordem do atributo a ser comparado)
+   Par√¢metros: a √© a tabela de origem. z √© a tabela de destino. c √© a condi√ß√£o
+   de jun√ß√£o.*/
 void executaSelecao(char *a, char *z, Condicao c);
 
-/* DescriÁ„o: Prepara a chamada da funÁ„o de junÁ„o propriamente dita. (LÍ 
-   informaÁıes como o n˙mero de tuplas e a ordem dos atributos a serem 
-   comparados, alÈm de decidir qual a melhor tabela a ser colocada como 1™)
-   Par‚metros: a e b s„o as tabelas de origem. z È a tabela de destino. c È a 
-   condiÁ„o de junÁ„o.*/
+/* Descri√ß√£o: Prepara a chamada da fun√ß√£o de jun√ß√£o propriamente dita. (L√™ 
+   informa√ß√µes como o n√∫mero de tuplas e a ordem dos atributos a serem 
+   comparados, al√©m de decidir qual a melhor tabela a ser colocada como 1¬™)
+   Par√¢metros: a e b s√£o as tabelas de origem. z √© a tabela de destino. c √© a 
+   condi√ß√£o de jun√ß√£o.*/
 void executaJuncao(char *a, char *b, char *z, char *nomeA, Condicao c);
 
-/* DescriÁ„o: Prepara a chamada da funÁ„o de projeÁ„o propriamente dita.
-   Par‚metros: a È a tabela de origem. z È a tabela de destino. listaAtrib È a
+/* Descri√ß√£o: Prepara a chamada da fun√ß√£o de proje√ß√£o propriamente dita.
+   Par√¢metros: a √© a tabela de origem. z √© a tabela de destino. listaAtrib √© a
    lista de atributos.*/
 void executaProjecao(char *a, char *z, char *listaAtrib,int isDistinct, int isOrderBy);
 
-/* DescriÁ„o: Decodifica uma seleÁ„o.
-   Par‚metros: s È uma string que contÈm a seleÁ„o. a È a tabela de origem. z È
-   a tabela de destino. c È a vari·vel que vai receber a condiÁ„o de seleÁ„o.*/
+/* Descri√ß√£o: Decodifica uma sele√ß√£o.
+   Par√¢metros: s √© uma string que cont√©m a sele√ß√£o. a √© a tabela de origem. z √©
+   a tabela de destino. c √© a vari√°vel que vai receber a condi√ß√£o de sele√ß√£o.*/
 void decSelecao(char *s, char *a, char *z, Condicao *c);
 
-/* DescriÁ„o: Decodifica uma junÁ„o.
-   Par‚metros: s È uma string que contÈm a junÁ„o. a e b s„o as tabelas de 
-   origem. z È a tabela de destino. c È a vari·vel que vai receber a condiÁ„o de
-   junÁ„o.*/
+/* Descri√ß√£o: Decodifica uma jun√ß√£o.
+   Par√¢metros: s √© uma string que cont√©m a jun√ß√£o. a e b s√£o as tabelas de 
+   origem. z √© a tabela de destino. c √© a vari√°vel que vai receber a condi√ß√£o de
+   jun√ß√£o.*/
 void decJuncao(char *s, char *a, char *b, char *z, Condicao *c);
 
-/* DescriÁ„o: Decodifica uma projeÁ„o.
-   Par‚metros: s È uma string que contÈm a projeÁ„o. a È a tabela de origem. z È
-   a tabela de destino. listaAtrib È a lista de atributos.*/
+/* Descri√ß√£o: Decodifica uma proje√ß√£o.
+   Par√¢metros: s √© uma string que cont√©m a proje√ß√£o. a √© a tabela de origem. z √©
+   a tabela de destino. listaAtrib √© a lista de atributos.*/
 void decProjecao(char *s, char *a, char *z, char *listaAtrib);
 
 
-/* FunÁıes que manipulam atributos dentro de uma tupla */
+/* Fun√ß√µes que manipulam atributos dentro de uma tupla */
 
 
-/* DescriÁ„o: Recupera o valor de um atributo dentro de uma tupla.
-   Par‚metros: s È uma string que contÈm uma tupla. pos È a ordem do atributo. 
-   valor È a vari·vel que vai receber o valor do atributo.*/
+/* Descri√ß√£o: Recupera o valor de um atributo dentro de uma tupla.
+   Par√¢metros: s √© uma string que cont√©m uma tupla. pos √© a ordem do atributo. 
+   valor √© a vari√°vel que vai receber o valor do atributo.*/
 void recuperaValor(char *s, int pos, char *valor);
 
-/* DescriÁ„o: junta duas tuplas em uma sÛ.
-   Par‚metros: t1 e t2 s„o strings que contÍm tuplas. pos È a ordem do 
+/* Descri√ß√£o: junta duas tuplas em uma s√≥.
+   Par√¢metros: t1 e t2 s√£o strings que cont√™m tuplas. pos √© a ordem do 
    atributo.
-   Valor de retorno: ponteiro para a tupla resultante (ser· o mesmo valor de
+   Valor de retorno: ponteiro para a tupla resultante (ser√° o mesmo valor de
    t2).*/
 char *juntaTuplas(char *t1, char *t2, int pos);
 
 
-/* FunÁıes de manipulaÁ„o do arquivo de entrada */
+/* Fun√ß√µes de manipula√ß√£o do arquivo de entrada */
 
 
-/* DescriÁ„o: Decodifica e executa uma linha do arquivo com as operaÁıes 
-   algÈbricas.
-   Par‚metros: s È uma string que contÈm uma operaÁ„o algÈbrica.*/
+/* Descri√ß√£o: Decodifica e executa uma linha do arquivo com as opera√ß√µes 
+   alg√©bricas.
+   Par√¢metros: s √© uma string que cont√©m uma opera√ß√£o alg√©brica.*/
 void executaOperacao(char *s, char *nomeA,int isDistinct, int isOrderBy);
 
-/* DescriÁ„o: Executa as operaÁıes algÈbricas definidas em um arquivo.
-   Par‚metros: alg È um arquivo contendo operaÁıes algÈbricas*/
+/* Descri√ß√£o: Executa as opera√ß√µes alg√©bricas definidas em um arquivo.
+   Par√¢metros: alg √© um arquivo contendo opera√ß√µes alg√©bricas*/
 void executaAlg(FILE *alg,int isDistinct, int isOrderBy);

@@ -286,6 +286,79 @@ Tabela decTabela(FILE *ctl, FILE *dad)
      return t;
 }
 
+int comparaIgual(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {                   
+        return(atoi(val) == atoi(atrib));  
+    } else {
+        return(!strcmp(val, atrib));  
+    }
+}
+
+int comparaMenor(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {   
+        return(atoi(atrib) < atoi(val));  
+    } else {
+        return(strcmp(atrib, val) < 0);  
+    }
+}
+
+int comparaMaior(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {   
+        return(atoi(atrib) > atoi(val));  
+    } else {
+        return(strcmp(atrib, val) > 0);  
+    }
+}
+ 
+int comparaMenorIgual(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {   
+        return(atoi(atrib) <= atoi(val));  
+    } else {
+        return(strcmp(atrib, val) <= 0);  
+    }
+}
+
+int comparaMaiorIgual(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {   
+        return(atoi(atrib) >= atoi(val));  
+    } else {
+        return(strcmp(atrib, val) >= 0);  
+    }
+}
+
+int comparaDiferente(char *atrib, char *val, int tipo)
+{
+    if (tipo == INTEGER) {   
+        return(atoi(atrib) != atoi(val));  
+    } else {
+        return(strcmp(atrib, val) != 0);  
+    }
+} 
+
+COMPARAPTR funcaoComparacao(Condicao c)
+{                                            /* verifica operador: */
+    if (!strcmp(c.opr, "#"))               
+        return(&comparaDiferente);           /* '<>': retorna comparaDiferente */ 
+    else if (!strcmp(c.opr, ">"))        
+        return(&comparaMaior);               /* '>': retorna comparaMaior */
+    else if (!strcmp(c.opr, "%"))        
+        return(&comparaMaiorIgual);          /* '>=': retorna comparaMaiorIgual */ 
+    else if (!strcmp(c.opr, "<")) 
+        return(&comparaMenor);               /* '<': retorna comparaMenor */
+    else if (!strcmp(c.opr, "@")) 
+        return(&comparaMenorIgual);          /* '<=': retorna comparaMenorIgual */
+    else  /*if (!strcmp(c.opr, "=")) */
+        return(&comparaIgual);               /* '=': retorna comparaIgual */   
+    
+    
+    
+}
+
 int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo)
 {
     char atrib[30], tupla[200];
@@ -305,12 +378,12 @@ int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo)
     fgets(tupla, 199, arq);
     tupla[strlen(tupla) - 1] = '\0';
 
-    while (!feof(arq))	/*Compara o atributo em questão com o valor buscado*/
+    while (!feof(arq))  /*Compara o atributo em questão com o valor buscado*/
     {
         recuperaValor(tupla, pos, atrib);
 
         if (!strcmp(k, atrib)){
-           return(i);	/*Até que ele seja encontrado*/
+           return(i);   /*Até que ele seja encontrado*/
         }
         if (ord)
         {
@@ -327,110 +400,40 @@ int buscaSeq(FILE *arq, char *k, int pos, int ord, int tipo)
         fgets(tupla, 199, arq);
         tupla[strlen(tupla) - 1] = '\0';
         i++;
-    }										/*ou que o arquivo termine*/
-	return(-1);		/*Se o arquivo terminou, o valor não existe*/
+    }                                       /*ou que o arquivo termine*/
+    return(-1);     /*Se o arquivo terminou, o valor não existe*/
 }
 
 int buscaSeqSelect(FILE *arq, Condicao c, int pos, int ord, int tipo)
 {
     char atrib[30], tupla[200];
     int i = 0;
-    int ik = 0;
-    int iatrib = 0;
-
+    
 /* Variáveis: atrib -> armazena o atributo pesquisado de cada tupla.
               tupla -> armazena cada tupla lida.
-              i -> contador (marca a posição no arquivo).
-              ik -> representação inteira de k.
-              iatrib -> representação inteira de atrib. */
-
-    if (tipo == INTEGER)
-        ik = atoi(c.val);
+              i -> contador (marca a posição no arquivo). */
 
     fgets(tupla, 199, arq);
     tupla[strlen(tupla) - 1] = '\0';
 
-    while (!feof(arq))	/*Compara o atributo em questão com o valor buscado*/
+    while (!feof(arq))	
     {
         recuperaValor(tupla, pos, atrib);
 
-        if (!strcmp(c.opr, "=")) {
-            if (tipo == INTEGER) {   
-                if (atoi(c.val) == atoi(atrib)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }        
-            } else {
-                if (!strcmp(c.val, atrib)){
-                    return(i);	/*Até que ele seja encontrado*/
-                }
+        if (funcaoComparacao(c)(atrib,c.val,tipo)) {       /*Compara o atributo em questão com o valor buscado*/
+            return(i);
+        } else {                                           
+            if (ord && strcmp(c.opr, "#") && strcmp(c.opr, ">")) /* se o atributo estiver ordenado e a busca for por valores <, <= ou = */
+            {
+                if (comparaMaiorIgual(atrib, c.val, tipo)) {     /* quando encontrar um valor maior, deve sair da busca */ 
+                    return(-1);
+                }            
             }
-        } else if (!strcmp(c.opr, "<")) {
-            if (tipo == INTEGER) {   
-                if (atoi(atrib) < atoi(c.val)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }      
-            } else {
-                if (strcmp(atrib, c.val) < 0){
-                    return(i);	/*Até que ele seja encontrado*/
-                } 
-            }
-        } else if (!strcmp(c.opr, ">")) {
-            if (tipo == INTEGER) {   
-                if (atoi(atrib) > atoi(c.val)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }      
-            } else {
-                if (strcmp(atrib, c.val) > 0){
-                    return(i);	/*Até que ele seja encontrado*/
-                } 
-            }
-        } else if (!strcmp(c.opr, "@")) {
-            if (tipo == INTEGER) {   
-                if (atoi(atrib) <= atoi(c.val)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }      
-            } else {
-                if (strcmp(atrib, c.val) <= 0){
-                    return(i);	/*Até que ele seja encontrado*/
-                } 
-            }
-        } else if (!strcmp(c.opr, "%")) {
-            if (tipo == INTEGER) {   
-                if (atoi(atrib) >= atoi(c.val)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }      
-            } else {
-                if (strcmp(atrib, c.val) >= 0){
-                    return(i);	/*Até que ele seja encontrado*/
-                } 
-            }
-        } else if (!strcmp(c.opr, "#")) {
-            if (tipo == INTEGER) {   
-                if (atoi(atrib) != atoi(c.val)){    
-                    return(i);	/*Até que ele seja encontrado*/
-                }      
-            } else {
-                if (strcmp(atrib, c.val) != 0){
-                    return(i);	/*Até que ele seja encontrado*/
-                } 
-            }
+            fgets(tupla, 199, arq);
+            tupla[strlen(tupla) - 1] = '\0';
+            i++;
         }
-        if (ord)
-        {
-           if (tipo == INTEGER)
-           {
-               iatrib = atoi(atrib);
-               if (ik < iatrib)
-                  return (-1);
-           }
-           else
-               if (strcmp(c.val, atrib) < 0)
-                  return (-1);
-        }
-        fgets(tupla, 199, arq);
-        tupla[strlen(tupla) - 1] = '\0';
-        i++;
-    }										/*ou que o arquivo termine*/
+    }										
 	return(-1);		/*Se o arquivo terminou, o valor não existe*/
 }
 
@@ -999,14 +1002,17 @@ void decSelecao(char *s, char *a, char *z, Condicao *c)
     strncpy(c->opr, s, ptr - s);
     c->opr[ptr - s] = 0;		/*O conteúdo é copiado para c.opr.*/
     temp = ++ptr;
+    
     ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
     strncpy(a, temp, ptr - temp);
     a[ptr - temp] = 0;		/*O conteúdo é copiado para a.*/
     temp = ++ptr;
+    
     ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
     strncpy(c->atr1, temp, ptr - temp);
     c->atr1[ptr - temp] = 0;		/*O conteúdo é copiado para c->atr1.*/
     temp = ++ptr;
+    
     ptr = strchr(temp, ',');	/*O nome da primeira tabela é delimitado por ','.*/
     strncpy(c->val, temp, ptr - temp);
     c->val[ptr - temp] = 0;		/*O conteúdo é copiado para c->val.*/
@@ -1019,9 +1025,10 @@ void decSelecao(char *s, char *a, char *z, Condicao *c)
         c->val[strlen(c->val) - 2] = 0;
     }
     temp = ++ptr;		/*Por último, temos o nome da tabela de destino,*/
+    
     ptr = strchr(temp, ')');	/*delimitado por ')'.*/
     strncpy(z, temp, ptr - temp);
-    z[ptr - temp] = 0;
+    z[ptr - temp] = 0; /*O conteúdo é copiado para z*/
 }
 
 void decJuncao(char *s, char *a, char *b, char *z, Condicao *c)

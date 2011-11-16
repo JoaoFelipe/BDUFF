@@ -1,1 +1,1 @@
-select * from projeto where numero=2;
+select * from projeto where NUMERO=2;

@@ -353,7 +353,8 @@ int analisaInsert(char *cmd)
     return(0);
 }
 
-int verificarCondicao(char *gmcondicao, Condicao *c) {
+int verificarCondicao(char *gmcondicao, Condicao *c) 
+{
     char *ch, *ch2;
 
     /* Variáveis: ch -> usada para ler o lado direito(atributo) da condicao 
@@ -701,7 +702,7 @@ int analisaSelect(char *cmd)
 
 
     
-    if (verificarCondicao(&gmcondicao, &c))
+    if (verificarCondicao(&gmcondicao, &c)) /* Monta Comparacao */
         return(COMPARACAO_INVLD);
              
     selectSQL(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a função chega aqui, temos um select com condição c.*/
@@ -777,7 +778,9 @@ int analisaJoin(char *listaAtrib, char *cmd)
     if (strcasecmp(temp, "where")) return (WHERE_FALTANDO);
     j += i + 1;
     strcpy(temp, &cmd[j]);
-    if (verificarCondicao(&temp, &c))
+
+    
+    if (verificarCondicao(&temp, &c)) /* Monta Comparacao */
         return(COMPARACAO_INVLD);
     
     join(nome1, nome2, listaAtrib, cj, &c);
