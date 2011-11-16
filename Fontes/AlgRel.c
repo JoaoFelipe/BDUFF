@@ -467,33 +467,23 @@ void selecao(char *a, char *z, Condicao c, int tipo, int pos, int chv,
         strcat(temp, ".dad");
         dadZ = fopen(temp, "a");
         printf("%s\n",c.val);
-        i = buscaSeqSelect(dadA, c, pos, ord, tipo);
-        if (i != -1)
+        
+        i = buscaSeqSelect(dadA, c, pos, ord, tipo); /* pega o proximo valor que satisfaz a condicao */
+        j = i;
+        while (j != -1)                              /* enquanto houver algum valor que satisfaça */
         {
             desloca(dadA, i);
             fgets(tupla, 199, dadA);
             tupla[strlen(tupla) - 1] = '\0';
-            fprintf(dadZ, "%s\n", tupla);
-
+            fprintf(dadZ, "%s\n", tupla);            /* grava valor lido na relaçao Z */
             n++;
-            /*if (!chv)
-            {*/
-                desloca(dadA, ++i);
-                j = buscaSeqSelect(dadA, c, pos, ord, tipo);
-                while (j != -1)
-                {
-                    i += j;
-                    desloca(dadA, i);
-
-                    fgets(tupla, 199, dadA);
-                    tupla[strlen(tupla) - 1] = '\0';
-                    fprintf(dadZ, "%s\n", tupla);
-                    n++;
-                    desloca(dadA, ++i);
-                    /*printf("%s | %s\n", tupla,c.val);   DESCOMENTE*/
-                    j = buscaSeqSelect(dadA, c, pos, ord, tipo);
-                }
-            /*}*/
+            desloca(dadA, ++i);
+            j = buscaSeqSelect(dadA, c, pos, ord, tipo); /* pega o proximo valor que satisfaz a condicao */
+            i += j;
+            if (chv && !strcmp(c.opr, "=")) /* se for chave e comparacao =, sai do loop após encontrar */
+            {
+                j = -1;
+            }
         }
 
         fclose(dadA);	/*O arquivo de dados é gerado.*/
