@@ -1,1 +1,1 @@
-select * from empregados;
+select * from projeto where numero=2;

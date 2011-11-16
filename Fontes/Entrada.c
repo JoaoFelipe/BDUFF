@@ -354,67 +354,48 @@ int analisaInsert(char *cmd)
 }
 
 int verificarCondicao(char *gmcondicao, Condicao *c) {
-    char *ch;
+    char *ch, *ch2;
 
-    /* Variáveis: ch -> usada para ler a condição. */
+    /* Variáveis: ch -> usada para ler o lado direito(atributo) da condicao 
+                  ch2 -> usada para ler o lado esquerdo(valor) da condicao
+    */
 
   
-    if ((ch = strchr(gmcondicao, '=')) != NULL) 
+    if ((ch = strchr(gmcondicao, '=')) != NULL)             /*Procuramos por '=' e colocamos a posicao em ch*/
     {
-        strncpy(c->val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
-        c->val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do = */
-       
-        strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '=', pois*/
-        c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-        normaliza(c->atr1);
         
-       
-        if ((ch = strchr(gmcondicao, '>')) != NULL) 
-        {
-            strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '>', pois*/
-            c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-            normaliza(c->atr1); 
+        if ((ch2 = strchr(gmcondicao, '>')) != NULL)        /*Procuramos por '>' e colocamos a posicao em ch2*/
+        {           
             c->opr[0] = '%';
-        } else if ((ch = strchr(gmcondicao, '<')) != NULL) 
+        } else if ((ch2 = strchr(gmcondicao, '<')) != NULL) /*Procuramos por '<' e colocamos a posicao em ch2*/ 
         {
-            strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
-            c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-            normaliza(c->atr1);
             c->opr[0] = '@';
-        } else {
+        } else {                                            /*se não encontrar, colocamos a posicao do '=' em ch2*/
+            ch2 = ch;
             c->opr[0] = '=';
-        }  
-        c->opr[1] = '\0';
-    } else if ((ch = strchr(gmcondicao, '>')) != NULL) {
-        strncpy(c->val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
-        c->val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do > */
-       
-        strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '>', pois*/
-        c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-        normaliza(c->atr1);
-        
-        if ((ch = strchr(gmcondicao, '<')) != NULL) 
-        {
-            strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
-            c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-            normaliza(c->atr1); 
+        }
+    } else if ((ch = strchr(gmcondicao, '>')) != NULL) {    /*Procuramos por '>' e colocamos a posicao em ch*/
+        if ((ch2 = strchr(gmcondicao, '<')) != NULL)        /*Procuramos por '<' e colocamos a posicao em ch2*/  
+        {   
             c->opr[0] = '#';
-        } else {
+        } else {                                            /*se não encontrar, colocamos a posicao do '>' em ch2*/  
+            ch2 = ch;
             c->opr[0] = '>';
-        }     
-        c->opr[1] = '\0';
-    } else if ((ch = strchr(gmcondicao, '<')) != NULL) {
-        strncpy(c->val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
-        c->val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';  /* a direita do < */
-       
-        strncpy(c->atr1, gmcondicao, (int) (ch - gmcondicao));   /*Procuramos por '<', pois*/
-        c->atr1[ch - gmcondicao] = '\0';               /*ele separa atributo e valor.*/
-        normaliza(c->atr1);
+        } 
+    } else if ((ch = strchr(gmcondicao, '<')) != NULL) {    /*Procuramos por '<' e colocamos a posicao em ch e ch2*/
+        ch2 = ch;
         c->opr[0] = '<';
-        c->opr[1] = '\0';
     } else {
         return(COMPARACAO_INVLD);
     }
+    
+    strncpy(c->val, &ch[1], strlen(gmcondicao) - ((int) (ch - gmcondicao))); /* Pega o valor da comparacao */
+    c->val[strlen(gmcondicao) - ((int) (ch - gmcondicao))] = '\0';           /* a direira do ch */
+       
+    strncpy(c->atr1, gmcondicao, (int) (ch2 - gmcondicao));   /* Pega o nome do atributo */
+    c->atr1[ch2 - gmcondicao] = '\0';                         /* a esquerda do ch2 */ 
+    normaliza(c->atr1);
+    c->opr[1] = '\0';
     return 0;
 }
 
