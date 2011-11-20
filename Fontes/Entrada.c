@@ -222,7 +222,7 @@ int proxPalavra(char *s)
     /*return (i);										/*por ' ' ou ''.*/
 
     i=0;
-    while(s[i] != 0 && s[i] != '(' && s[i] != ' ')/* && s[i] != ',')*/
+    while(s[i] != 0 && s[i] != '(' && s[i] != ' ' )/* && s[i] != ',')*/
         i++;
     return i;
 }
@@ -404,7 +404,7 @@ int analisaSelect(char *cmd)
 {
     int i, j,k, tipo;
     int isDistinct=0, isOrderBy=0, isCount=0, isSum=0, isAvg=0, isMin=0, isMax=0;
-    char nome[30],ParentesesErro[10], temp[100], *ch, SumAndAvg[10], listaAtrib[200],distinct[10],count[10], orderby[20], gmcondicao[20], orderbyAtributos[100];
+    char nome[30],ParentesesErro[10], temp[100], *ch, SumAndAvg[10], listaAtrib[200],distinct[255],count[10], orderby[20], gmcondicao[20], orderbyAtributos[100];
     Condicao c;
 
     /* Variáveis: i -> usada para acessar posições específicas em cmd.
@@ -586,6 +586,7 @@ int analisaSelect(char *cmd)
 
         j=0;
     }
+    
     if(!isDistinct && isSum) listaAtrib[i-1] = 0;
     else listaAtrib[i] = 0;
 
@@ -635,7 +636,7 @@ int analisaSelect(char *cmd)
     /* GM: Fim Order By */
 
 
-
+    
     if (cmd[j - 1] == 0)					/*Se o comando acabou, é um select sem*/
     {
         /*condição.*/
