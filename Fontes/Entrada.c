@@ -8,35 +8,35 @@ int strcasecmp(const char *s1, const char *s2)
 {
     char c1, c2;
 
-    /* Vari·veis: c1 -> armazena cada caracter de s1, em caixa baixa.
+    /* Vari√°veis: c1 -> armazena cada caracter de s1, em caixa baixa.
     			  c2 -> armazena cada caracter de s2, em caixa baixa. */
 
     while (1)
     {
-        c1 = tolower( (unsigned char) *s1++ );	/*Os caracteres s„o passados */
+        c1 = tolower( (unsigned char) *s1++ );	/*Os caracteres s√£o passados */
         c2 = tolower( (unsigned char) *s2++ );	/*para caixa baixa.*/
         if (c1 == 0 || c1 != c2) return c1 - c2; /*Se s1 termina, ou se */
-    }										/*c1 != c2, a funÁ„o termina.*/
+    }										/*c1 != c2, a fun√ß√£o termina.*/
 }
 
 int primeiroCh(char *s)
 {
     int i = 0;
 
-    /* Vari·veis: i -> contador. Guarda a posiÁ„o do prÛximo caractere v·lido. */
+    /* Vari√°veis: i -> contador. Guarda a posi√ß√£o do pr√≥ximo caractere v√°lido. */
 
     while (s[i] == ' ') i++;
-    if ((s[i] == 0) || (s[i] == 10)) i = -1; /*Se o 1∞ caractere for nulo ou de*/
-    return(i);						/*quebra de linha, a funÁ„o retorna -1.*/
+    if ((s[i] == 0) || (s[i] == 10)) i = -1; /*Se o 1¬∞ caractere for nulo ou de*/
+    return(i);						/*quebra de linha, a fun√ß√£o retorna -1.*/
 }
 
 void retiraQuebras(char *s)
 {
     char *ch;
 
-    /* Vari·veis: ch -> aponta para quebras de linha em s. */
+    /* Vari√°veis: ch -> aponta para quebras de linha em s. */
 
-    ch = strchr(s, 10);	/*Procuramos pela prÛxima quebra de linha em s.*/
+    ch = strchr(s, 10);	/*Procuramos pela pr√≥xima quebra de linha em s.*/
     while ((ch != NULL)  && (ch < &s[strlen(s)]))
     {
         *ch = 32;		/*Se existir, a substituimos por ' '.*/
@@ -49,15 +49,15 @@ void suprimeEspacos(char *s)
     int i, j, k = 0;
     char *temp;
 
-    /* Vari·veis: i -> contador. PosiÁ„o na string s.
+    /* Vari√°veis: i -> contador. Posi√ß√£o na string s.
     			  j -> deslocamento em s.
-    			  k -> contador. PosiÁ„o em temp.
+    			  k -> contador. Posi√ß√£o em temp.
     			  temp -> armazena a string a ser retornada. */
 
     temp = (char *) malloc(sizeof(char[255]));
     for (i = primeiroCh(s); i < strlen(s); i++)
     {
-        if (s[i] == ' ')	/*Se encontramos um espaÁo, ignoramos os prÛximos.*/
+        if (s[i] == ' ')	/*Se encontramos um espa√ßo, ignoramos os pr√≥ximos.*/
         {
             if ((j = primeiroCh(&s[i])) == -1) break;
             temp[k++] = s[i];
@@ -65,8 +65,8 @@ void suprimeEspacos(char *s)
             continue;
         }
         if (s[i] != 9) temp[k++] = s[i];
-        else temp[k++] = ' ';	/*Se encontramos uma tabulaÁ„o,*/
-    }							/*colocamos um espaÁo no lugar.*/
+        else temp[k++] = ' ';	/*Se encontramos uma tabula√ß√£o,*/
+    }							/*colocamos um espa√ßo no lugar.*/
     temp[k] = 0;
     strcpy(s, temp);
     free(temp);
@@ -75,8 +75,8 @@ void suprimeEspacos(char *s)
 void normaliza(char *s)
 {
     retiraQuebras(s);	/*Retiramos as quebras de linha.*/
-    suprimeEspacos(s);	/*E suprimimos os espaÁos.*/
-    suprimeEspacos(s);	/*(2 vezes, para evitar anomalias como tabulaÁıes)*/
+    suprimeEspacos(s);	/*E suprimimos os espa√ßos.*/
+    suprimeEspacos(s);	/*(2 vezes, para evitar anomalias como tabula√ß√µes)*/
 }
 
 int checaDuploComando(char *cmd)
@@ -85,14 +85,14 @@ int checaDuploComando(char *cmd)
     char *ptr;
     char *temp;
 
-    /* Vari·veis: i -> contador.
+    /* Vari√°veis: i -> contador.
     			  ptr -> ponteiro para percorrer cmd.
     			  temp -> armazena o valor de cmd, em caixa alta.*/
 
     temp = (char *) malloc(strlen(cmd));
     for (i = 0; cmd[i] != 0; i++)
-        temp[i] = toupper(cmd[i]);	/*Passamos cmd para mai˙sculas.*/
-    temp[--i] = 0;					/*Buscamos duas expressıes reservadas.*/
+        temp[i] = toupper(cmd[i]);	/*Passamos cmd para mai√∫sculas.*/
+    temp[--i] = 0;					/*Buscamos duas express√µes reservadas.*/
     if (((ptr = strstr(temp, "CREATE TABLE")) != NULL)
             || ((ptr = strstr(temp, "INSERT")) != NULL)
             || ((ptr = strstr(temp, "SELECT")) != NULL)
@@ -107,7 +107,7 @@ int checaDuploComando(char *cmd)
             return(PNTVRG_FALTANDO);
         }
     }
-    free(temp);	/*Caso n„o se encontre, sÛ existe um comando.*/
+    free(temp);	/*Caso n√£o se encontre, s√≥ existe um comando.*/
     return(0);
 }
 
@@ -116,14 +116,14 @@ int proxComando(char *buffer, FILE *arq)
     char linha[255], *fim = NULL;
     int i;
 
-    /* Vari·veis: linha -> armazena cada linha lida do arquivo.
+    /* Vari√°veis: linha -> armazena cada linha lida do arquivo.
     			  fim -> ponteiro usado para encontrar o delimitador (';').
-    			  i -> usada para acessar posiÁıes especÌficas de linha.*/
+    			  i -> usada para acessar posi√ß√µes espec√≠ficas de linha.*/
 
-    buffer[0] = 0;	/*Inicializamos as vari·veis.*/
+    buffer[0] = 0;	/*Inicializamos as vari√°veis.*/
     linha[0] = 0;
 
-    while ((fim == NULL) && (!feof(arq)))	/*Enquanto n„o encontra-se ';',*/
+    while ((fim == NULL) && (!feof(arq)))	/*Enquanto n√£o encontra-se ';',*/
     {
         /*lemos mais 1 linha do arquivo.*/
         fgets(linha, 255, arq);
@@ -134,11 +134,11 @@ int proxComando(char *buffer, FILE *arq)
         strcat(buffer, linha);					/*E concatenamos com Buffer.*/
         fim = strchr(buffer, ';');
     }
-    if (fim == NULL) return(1);		/*Se o ';' n„o foi encontrado, erro.*/
+    if (fim == NULL) return(1);		/*Se o ';' n√£o foi encontrado, erro.*/
     strncpy(linha, buffer, fim - buffer + 1);
-    linha[fim - buffer + 1] = 0;		/*O comando È normalizado.*/
+    linha[fim - buffer + 1] = 0;		/*O comando √© normalizado.*/
     normaliza(linha);
-    strcpy(buffer, linha);				/*… preciso checar se n„o existem duas */
+    strcpy(buffer, linha);				/*√â preciso checar se n√£o existem duas */
     return(checaDuploComando(buffer));	/*palavras-chave.*/
 }					/*Se existirem, falta o ';' no primeiro comando.*/
 
@@ -146,14 +146,14 @@ int proxDelimitador(char *cmd, int *tipo)
 {
     int i;
 
-    /* Vari·veis: i -> usada para varrer cmd.*/
+    /* Vari√°veis: i -> usada para varrer cmd.*/
 
     for (i = 0; (cmd[i] != '(') && (cmd[i] != ')') && (cmd[i] != ',')
             && (cmd[i] != 0); i++);
     switch (cmd[i])
     {
     case 0:
-        return(-1);               /*Se a string termina, n„o h· bloco.*/
+        return(-1);               /*Se a string termina, n√£o h√° bloco.*/
     case '(':
         *tipo = 0;
         break;
@@ -173,7 +173,7 @@ int proxDelimitadorDel(char *cmd, int *tipo)
 {
     int i;
 
-    /* Vari·veis: i -> usada para varrer cmd.*/
+    /* Vari√°veis: i -> usada para varrer cmd.*/
 
     for (i = 0; (cmd[i] != ' ') && (cmd[i] != 0); i++);
     switch (cmd[i])
@@ -190,14 +190,14 @@ int proxDelimitadorWhere(char *cmd, int *tipo)
 {
     int i;
 
-    /* Vari·veis: i -> usada para varrer cmd.*/
+    /* Vari√°veis: i -> usada para varrer cmd.*/
 
     for (i = 0; (cmd[i] != ' ') && (cmd[i] != '=') && (cmd[i] != 0); i++);
     switch (cmd[i])
     {
     case 0:
         *tipo = 1;
-        break;               /*Se a string termina, n„o h· bloco.*/
+        break;               /*Se a string termina, n√£o h√° bloco.*/
     case '=':
         *tipo = 0;
         break;
@@ -215,10 +215,10 @@ int proxPalavra(char *s)
 {
     int i;
 
-    /* Vari·veis: i -> usada para varrer s.*/
+    /* Vari√°veis: i -> usada para varrer s.*/
 
-    /*AtualizaÁ„o 2010.2 Uma palavra tambÈm È determinada por parenteses, abre e fecha*/
-    /*for (i = 0; (s[i] != 0) && (s[i] != '(') && (s[i] != ' '); i++); /*Uma palavra È delimitada*/
+    /*Atualiza√ß√£o 2010.2 Uma palavra tamb√©m √© determinada por parenteses, abre e fecha*/
+    /*for (i = 0; (s[i] != 0) && (s[i] != '(') && (s[i] != ' '); i++); /*Uma palavra √© delimitada*/
     /*return (i);										/*por ' ' ou ''.*/
 
     i=0;
@@ -234,9 +234,9 @@ int analisaComando(char *c)
     char param[300];
     char temp[70];
 
-    /* Vari·veis: i -> usada para marcar posiÁıes especÌficas em c.
+    /* Vari√°veis: i -> usada para marcar posi√ß√µes espec√≠ficas em c.
     			  cmd -> armazena a o comando.
-    			  param -> armazena os par‚metros do comando (todo o resto).
+    			  param -> armazena os par√¢metros do comando (todo o resto).
                   temp -> armazena a 1a. palavra-chave do comando. */
 
     i = proxPalavra(c);
@@ -250,13 +250,13 @@ int analisaComando(char *c)
     cmd[i] = 0;
     normaliza(cmd);
     strncpy(param, &c[i+1], strlen(c) - i - 1);
-    param[strlen(c) - i - 2] = 0;	/*Tentamos descobrir qual È o comando.*/
+    param[strlen(c) - i - 2] = 0;	/*Tentamos descobrir qual √© o comando.*/
     if (!strcasecmp(cmd, "create table")) return(analisaCreate(param));
     else if (!strcasecmp(cmd, "insert into")) return(analisaInsert(param));
     else if (!strcasecmp(cmd, "delete from")) return(analisaDelete(param));
     else if (!strcasecmp(cmd, "update")) return(analisaUpdate(param));
     else if (!strcasecmp(cmd, "select")) return(analisaSelect(param));
-    else return(CMD_DESCONHECIDO);	/*Caso n„o seja um deles, erro.*/
+    else return(CMD_DESCONHECIDO);	/*Caso n√£o seja um deles, erro.*/
 }
 
 int analisaCreate(char *cmd)
@@ -266,16 +266,16 @@ int analisaCreate(char *cmd)
     Cabecalho *c;
     Atributo a;
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-                  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+                  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
                   tipo -> armazena o tipo de bloco.
                   nome -> armazena o nome da tabela a ser criada.
-                  temp -> armazena cada atributo (com suas definiÁıes).
-                  c -> cabeÁalho da tabela.
+                  temp -> armazena cada atributo (com suas defini√ß√µes).
+                  c -> cabe√ßalho da tabela.
                   a -> armazena cada atributo a ser inserido na lista.*/
 
     initCabecalho(&c);
-    i = proxDelimitador(cmd, &tipo);	/*Se n„o encontrarmos '(', erro de sintaxe.*/
+    i = proxDelimitador(cmd, &tipo);	/*Se n√£o encontrarmos '(', erro de sintaxe.*/
     if (tipo != 0)
     {
         fmemCabecalho(&c);
@@ -288,7 +288,7 @@ int analisaCreate(char *cmd)
 
     j = i + 1;
     i = proxDelimitador(&cmd[j], &tipo);
-    while (i != -1)				/*Enquanto h· atributos,*/
+    while (i != -1)				/*Enquanto h√° atributos,*/
     {
         strncpy(temp , &cmd[j], i);	/*copiamos de cmd.*/
         temp[i] = 0;
@@ -302,7 +302,7 @@ int analisaCreate(char *cmd)
         insertCabecalho(&c, a);	/*E inserimos na lista.*/
         i = proxDelimitador(&cmd[j], &tipo);
     }
-    createTable(nome, c);	/*A funÁ„o especÌfica È chamada.*/
+    createTable(nome, c);	/*A fun√ß√£o espec√≠fica √© chamada.*/
     return(0);
 }
 
@@ -312,8 +312,8 @@ int analisaInsert(char *cmd)
     char nome[30], temp[100];
     Tupla *t;
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-    			  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
     			  tipo -> armazena o tipo do bloco.
     			  nome -> armazena o nome da tabela.
     			  temp -> partes do comando a serem interpretadas.
@@ -321,10 +321,10 @@ int analisaInsert(char *cmd)
 
     initTupla(&t);
     i = proxPalavra(cmd);
-    strncpy(nome, cmd, i);	/*O primeiro identificador È o nome da tabela.*/
+    strncpy(nome, cmd, i);	/*O primeiro identificador √© o nome da tabela.*/
     nome[i] = 0;
     j = i + 1;
-    i = proxDelimitador(&cmd[j], &tipo);	/*Os valores tÍm que vir entre parÍntesis.*/
+    i = proxDelimitador(&cmd[j], &tipo);	/*Os valores t√™m que vir entre par√™ntesis.*/
     if (tipo != 0)
     {
         fmemTupla(&t);
@@ -339,7 +339,7 @@ int analisaInsert(char *cmd)
         return(VALUES_FALTANDO);
     }
     j += i + 1;
-    i = proxDelimitador(&cmd[j], &tipo);	/*Os valores s„o lidos*/
+    i = proxDelimitador(&cmd[j], &tipo);	/*Os valores s√£o lidos*/
     while (i != -1)
     {
         strncpy(temp , &cmd[j], i);
@@ -357,7 +357,7 @@ int verificarCondicao(char *gmcondicao, Condicao *c)
 {
     char *ch, *ch2;
 
-    /* Vari·veis: ch -> usada para ler o lado direito(atributo) da condicao 
+    /* Vari√°veis: ch -> usada para ler o lado direito(atributo) da condicao 
                   ch2 -> usada para ler o lado esquerdo(valor) da condicao
     */
 
@@ -371,7 +371,7 @@ int verificarCondicao(char *gmcondicao, Condicao *c)
         } else if ((ch2 = strchr(gmcondicao, '<')) != NULL) /*Procuramos por '<' e colocamos a posicao em ch2*/ 
         {
             c->opr[0] = '@';
-        } else {                                            /*se n„o encontrar, colocamos a posicao do '=' em ch2*/
+        } else {                                            /*se n√£o encontrar, colocamos a posicao do '=' em ch2*/
             ch2 = ch;
             c->opr[0] = '=';
         }
@@ -379,7 +379,7 @@ int verificarCondicao(char *gmcondicao, Condicao *c)
         if ((ch2 = strchr(gmcondicao, '<')) != NULL)        /*Procuramos por '<' e colocamos a posicao em ch2*/  
         {   
             c->opr[0] = '#';
-        } else {                                            /*se n„o encontrar, colocamos a posicao do '>' em ch2*/  
+        } else {                                            /*se n√£o encontrar, colocamos a posicao do '>' em ch2*/  
             ch2 = ch;
             c->opr[0] = '>';
         } 
@@ -407,13 +407,13 @@ int analisaSelect(char *cmd)
     char nome[30],ParentesesErro[10], temp[100], *ch, SumAndAvg[10], listaAtrib[200],distinct[255],count[10], orderby[20], gmcondicao[20], orderbyAtributos[100];
     Condicao c;
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-    			  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
     			  tipo -> armazena o tipo de bloco.
     			  nome -> armazena o nome da tabela a ser consultada.
     			  temp -> partes do comando a serem interpretadas.
-    			  ch -> usada para ler a condiÁ„o.
-    			  c -> condiÁ„o de SeleÁ„o.*/
+    			  ch -> usada para ler a condi√ß√£o.
+    			  c -> condi√ß√£o de Sele√ß√£o.*/
 
     i = proxPalavra(cmd);
     strncpy(distinct, cmd, i);
@@ -429,7 +429,7 @@ int analisaSelect(char *cmd)
     }
     else
     {
-        strncpy(listaAtrib, cmd, i);	/*O primeiro identificador È a lista de atributos.*/
+        strncpy(listaAtrib, cmd, i);	/*O primeiro identificador √© a lista de atributos.*/
 
         /*Tratamento do COUNT,SUM,MIN,MAX,AVG 2010.2*/
         listaAtrib[i] = 0;
@@ -447,27 +447,27 @@ int analisaSelect(char *cmd)
             if(strcasecmp(listaAtrib,"distinct")!=0)
                 listaAtrib[i-1] = 0; /*Retira parenteses*/
             else
-                listaAtrib[i] = 0; /*Sen„o mantÈm a cl·usula DISTINCT*/
+                listaAtrib[i] = 0; /*Sen√£o mant√©m a cl√°usula DISTINCT*/
 
-            /*Dentro de Sum poder· conter a cl·usula Distinct 2010.2*/
+            /*Dentro de Sum poder√° conter a cl√°usula Distinct 2010.2*/
             if(strcasecmp(listaAtrib,"distinct")==0)
             {
                 isDistinct = 1;
-                j = i + j + 1; /*Pula distinct e espaÁo em branco para alcanÁar argumentos*/
+                j = i + j + 1; /*Pula distinct e espa√ßo em branco para alcan√ßar argumentos*/
                 i = proxPalavra(&cmd[j]);
                 strncpy(listaAtrib, &cmd[j], i);
                 listaAtrib[i-1]=0;
             }
 
-            /*Pega prÛximo parenteses*/
+            /*Pega pr√≥ximo parenteses*/
             j += i - 1;
             strncpy(ParentesesErro, &cmd[j], 1);
             ParentesesErro[1] = 0;
 
-            /*Pula para prÛxima palavra, segundo a sintaxe estabelecida*/
+            /*Pula para pr√≥xima palavra, segundo a sintaxe estabelecida*/
             i = j + 1;
 
-            if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita asterÌstico como par‚metro*/
+            if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita aster√≠stico como par√¢metro*/
                 return(AVG_ERRADO);
 
         }
@@ -485,27 +485,27 @@ int analisaSelect(char *cmd)
             if(strcasecmp(listaAtrib,"distinct")!=0)
                 listaAtrib[i-1] = 0; /*Retira parenteses*/
             else
-                listaAtrib[i] = 0; /*Sen„o mantÈm a cl·usula DISTINCT*/
+                listaAtrib[i] = 0; /*Sen√£o mant√©m a cl√°usula DISTINCT*/
 
-            /*Dentro de Sum poder· conter a cl·usula Distinct 2010.2*/
+            /*Dentro de Sum poder√° conter a cl√°usula Distinct 2010.2*/
             if(strcasecmp(listaAtrib,"distinct")==0)
             {
                 isDistinct = 1;
-                j = i + j + 1; /*Pula distinct e espaÁo em branco para alcanÁar argumentos*/
+                j = i + j + 1; /*Pula distinct e espa√ßo em branco para alcan√ßar argumentos*/
                 i = proxPalavra(&cmd[j]);
                 strncpy(listaAtrib, &cmd[j], i);
                 listaAtrib[i-1]=0;
             }
 
-            /*Pega prÛximo parenteses*/
+            /*Pega pr√≥ximo parenteses*/
             j += i - 1;
             strncpy(ParentesesErro, &cmd[j], 1);
             ParentesesErro[1] = 0;
 
-            /*Pula para prÛxima palavra, segundo a sintaxe estabelecida*/
+            /*Pula para pr√≥xima palavra, segundo a sintaxe estabelecida*/
             i = j + 1;
 
-            if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita asterÌstico como par‚metro*/
+            if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita aster√≠stico como par√¢metro*/
                 return(SUM_ERRADO);
         }
         else if(strcasecmp(listaAtrib,"count")==0)
@@ -514,26 +514,26 @@ int analisaSelect(char *cmd)
             i = proxPalavra(cmd);
             j = i+1;
 
-            strncpy(listaAtrib,&cmd[j],1); /*Pega asterÌstico*/
+            strncpy(listaAtrib,&cmd[j],1); /*Pega aster√≠stico*/
             listaAtrib[1] = 0;
 
-            /*Pega prÛximo parenteses*/
+            /*Pega pr√≥ximo parenteses*/
             i++;
             j = i + 1;
             strncpy(ParentesesErro, &cmd[j], i);
             ParentesesErro[1] = 0;
 
-            /*Pula para prÛxima palavra, segundo a sintaxe estabelecida*/
+            /*Pula para pr√≥xima palavra, segundo a sintaxe estabelecida*/
             i += 2;
 
-            if(strcasecmp(listaAtrib,"*")!=0 || strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita asterÌstico como par‚metro*/
+            if(strcasecmp(listaAtrib,"*")!=0 || strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita aster√≠stico como par√¢metro*/
                 return(COUNT_ERRADO);
         }
         else
         {
             if(strcasecmp(listaAtrib,"min")==0)
             {
-                isMin = 1; /*A cl·usula isMin È ativada*/
+                isMin = 1; /*A cl√°usula isMin √© ativada*/
 
                 i = proxPalavra(cmd); /*Pega o tamanho de Min*/
                 j = i+1;
@@ -543,16 +543,16 @@ int analisaSelect(char *cmd)
                 strncpy(listaAtrib,&cmd[j],i); /*Pega aargumento*/
                 listaAtrib[i-1] = 0; /*Retira Parenteses do argumento*/
 
-                /*Pega prÛximo parenteses*/
+                /*Pega pr√≥ximo parenteses*/
                 i+=2;
                 j = i + 1;
                 strncpy(ParentesesErro, &cmd[j], 1);
                 ParentesesErro[1] = 0;
 
-                /*Pula para prÛxima palavra, segundo a sintaxe estabelecida*/
+                /*Pula para pr√≥xima palavra, segundo a sintaxe estabelecida*/
                 i += 2;
 
-                if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita asterÌstico como par‚metro*/
+                if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita aster√≠stico como par√¢metro*/
                     return(MIN_ERRADO);
             }
             else if(strcasecmp(listaAtrib,"max")==0)
@@ -567,16 +567,16 @@ int analisaSelect(char *cmd)
                 strncpy(listaAtrib,&cmd[j],i); /*Pega argumento*/
                 listaAtrib[i-1] = 0;
 
-                /*Pega prÛximo parenteses*/
+                /*Pega pr√≥ximo parenteses*/
                 i+=2;
                 j = i + 1;
                 strncpy(ParentesesErro, &cmd[j], 1);
                 ParentesesErro[1] = 0;
 
-                /*Pula para prÛxima palavra, segundo a sintaxe estabelecida*/
+                /*Pula para pr√≥xima palavra, segundo a sintaxe estabelecida*/
                 i += 2;
 
-                if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita asterÌstico como par‚metro*/
+                if(strcasecmp(ParentesesErro,")")!=0) /*Se o Count for para todos, apenas aceita aster√≠stico como par√¢metro*/
                     return(MAX_ERRADO);
             }
         }
@@ -595,10 +595,10 @@ int analisaSelect(char *cmd)
     strncpy(temp, &cmd[j], i);
 
     temp[i] = 0;
-    if (strcasecmp(temp, "from")) return (FROM_FALTANDO); /*Se n„o encontramos a palavra*/
+    if (strcasecmp(temp, "from")) return (FROM_FALTANDO); /*Se n√£o encontramos a palavra*/
     j += i + 1;								/*reservada "from", erro.*/
-    if (cmd[j] == '(') return(analisaJoin(listaAtrib, &cmd[j]));	/*Se h· uma condiÁ„o de junÁ„o,*/
-    i = proxPalavra(&cmd[j]);				/*chamamos uma funÁ„o especializada.*/
+    if (cmd[j] == '(') return(analisaJoin(listaAtrib, &cmd[j]));	/*Se h√° uma condi√ß√£o de jun√ß√£o,*/
+    i = proxPalavra(&cmd[j]);				/*chamamos uma fun√ß√£o especializada.*/
     strncpy(nome, &cmd[j], i);			/*Lemos o nome da tabela.*/
     nome[i] = 0;
     j += i + 1;
@@ -624,7 +624,7 @@ int analisaSelect(char *cmd)
             /* GM: orderbyAtributos = atributo a se ordenado */
             strncpy(orderbyAtributos, &cmd[j], i);
 
-            j += i + 1; /* GM: N„o mexer */
+            j += i + 1; /* GM: N√£o mexer */
 
             isOrderBy=1;
         }
@@ -637,9 +637,9 @@ int analisaSelect(char *cmd)
 
 
     
-    if (cmd[j - 1] == 0)					/*Se o comando acabou, È um select sem*/
+    if (cmd[j - 1] == 0)					/*Se o comando acabou, √© um select sem*/
     {
-        /*condiÁ„o.*/
+        /*condi√ß√£o.*/
         selectSQL(nome, listaAtrib, NULL,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);
         return(0);
     }
@@ -647,8 +647,8 @@ int analisaSelect(char *cmd)
 
     i = proxPalavra(&cmd[j]);
     strncpy(temp, &cmd[j], i);
-    temp[i] = 0;							/*Caso contr·rio, devemos achar a*/
-    if (strcasecmp(temp, "where")) return (WHERE_FALTANDO);	/*cl·usula "where".*/
+    temp[i] = 0;							/*Caso contr√°rio, devemos achar a*/
+    if (strcasecmp(temp, "where")) return (WHERE_FALTANDO);	/*cl√°usula "where".*/
     j += i + 1;
 
 
@@ -696,17 +696,17 @@ int analisaSelect(char *cmd)
         }
     }
 
-    /* GM: Se n„o for order by continua normalmente */
+    /* GM: Se n√£o for order by continua normalmente */
     if (isOrderBy != 1) strcpy(gmcondicao, temp);
 
-    /* GM: Fim da remoÁ„o do ORDER BY do texto */
+    /* GM: Fim da remo√ß√£o do ORDER BY do texto */
 
 
     
     if (verificarCondicao(&gmcondicao, &c)) /* Monta Comparacao */
         return(COMPARACAO_INVLD);
              
-    selectSQL(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a funÁ„o chega aqui, temos um select com condiÁ„o c.*/
+    selectSQL(nome, listaAtrib, &c,isDistinct,isOrderBy,isCount,isSum,isMin,isMax,isAvg);/*Se a fun√ß√£o chega aqui, temos um select com condi√ß√£o c.*/
     printf("Selecao conluida!");
     return(0);
 }
@@ -714,21 +714,21 @@ int analisaSelect(char *cmd)
 int analisaJoin(char *listaAtrib, char *cmd)
 {
     int i, j;
-    char temp[30], *ch;
+    char temp[100], *ch;
     char nome1[30], nome2[30];
     Condicao c, cj;
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-    			  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
     			  temp -> partes do comando a serem interpretadas.
-    			  ch -> usada para ler a condiÁ„o.
-    			  nome1 -> armazena o nome da 1™ tabela da condiÁ„o.
-    			  nome2 -> armazena o nome da 2™ tabela da condiÁ„o.
-    			  c -> condiÁ„o de seleÁ„o.
-    			  cj -> condiÁ„o de junÁ„o.*/
+    			  ch -> usada para ler a condi√ß√£o.
+    			  nome1 -> armazena o nome da 1¬™ tabela da condi√ß√£o.
+    			  nome2 -> armazena o nome da 2¬™ tabela da condi√ß√£o.
+    			  c -> condi√ß√£o de sele√ß√£o.
+    			  cj -> condi√ß√£o de jun√ß√£o.*/
 
     i = proxPalavra(&cmd[1]);		/*O primeiro indentificador deve ser o nome da*/
-    strncpy(nome1, &cmd[1], i);	/*primeira tabela da junÁ„o.*/
+    strncpy(nome1, &cmd[1], i);	/*primeira tabela da jun√ß√£o.*/
     nome1[i] = 0;
     j = i + 2;
     i = proxPalavra(&cmd[j]);
@@ -748,7 +748,7 @@ int analisaJoin(char *listaAtrib, char *cmd)
     i = proxPalavra(&cmd[j]);
     strncpy(temp, &cmd[j], i);
     temp[i] = 0;
-    if ((ch = strchr(temp, '=')) == NULL)	/*Chega-se ‡ condiÁ„o de junÁ„o.*/
+    if ((ch = strchr(temp, '=')) == NULL)	/*Chega-se √† condi√ß√£o de jun√ß√£o.*/
     {
         if (cmd[j + i + 1] != '=') return(COMPARACAO_INVLD);
         strcpy(cj.atr1, temp);
@@ -768,13 +768,13 @@ int analisaJoin(char *listaAtrib, char *cmd)
         cj.atr2[strlen(temp) - ((int) (ch - temp))] = 0;
     }
     j += i + 1;					/*Se o comando terminou, temos um select com*/
-    if (cmd[j - 1] == 0)			/*join, sem condiÁ„o de seleÁ„o.*/
+    if (cmd[j - 1] == 0)			/*join, sem condi√ß√£o de sele√ß√£o.*/
     {
         join(nome1, nome2, listaAtrib, cj, NULL);
         return(0);
     }
-    i = proxPalavra(&cmd[j]);		/*Sen„o, È preciso ler a condiÁ„o.*/
-    strncpy(temp, &cmd[j], i);	/*IdÍntico ‡ funÁ„o anterior.*/
+    i = proxPalavra(&cmd[j]);		/*Sen√£o, √© preciso ler a condi√ß√£o.*/
+    strncpy(temp, &cmd[j], i);	/*Id√™ntico √† fun√ß√£o anterior.*/
     temp[i] = 0;
     if (strcasecmp(temp, "where")) return (WHERE_FALTANDO);
     j += i + 1;
@@ -793,13 +793,13 @@ int analisaDelete(char *cmd)
     int i, j, tipo, erro;
     char nome[30], temp[100], atrib[30], valor[256];
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-    			  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
     			  tipo -> armazena o tipo do bloco.
     			  nome -> armazena o nome da tabela.
     			  temp -> partes do comando a serem interpretadas.*/
     i = proxPalavra(cmd);
-    strncpy(nome, cmd, i);	/*O primeiro identificador È o nome da tabela.*/
+    strncpy(nome, cmd, i);	/*O primeiro identificador √© o nome da tabela.*/
     nome[i] = 0;
     j = i + 1;
     i = proxDelimitadorDel(&cmd[j], &tipo);
@@ -838,13 +838,13 @@ int analisaUpdate(char *cmd)
     int i, j, tipo, erro;
     char nome[30], temp[100], atribSet[30], valorSet[256], atribWhere[30], valorWhere[256];
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em cmd.
-    			  j -> usada para acessar posiÁıes especÌficas em cmd.
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em cmd.
     			  tipo -> armazena o tipo do bloco.
     			  nome -> armazena o nome da tabela.
     			  temp -> partes do comando a serem interpretadas.*/
     i = proxPalavra(cmd);
-    strncpy(nome, cmd, i);	/*O primeiro identificador È o nome da tabela.*/
+    strncpy(nome, cmd, i);	/*O primeiro identificador √© o nome da tabela.*/
     nome[i] = 0;
     j = i + 1;
     i = proxDelimitadorDel(&cmd[j], &tipo);
@@ -874,12 +874,12 @@ int analisaUpdate(char *cmd)
             {
                 i = proxDelimitadorDel(&cmd[j], &tipo);
                 if (i == -1){
-                    printf("inicia atualizaÁ„o de tudo\n");
+                    printf("inicia atualiza√ß√£o de tudo\n");
                     updateAll(nome, atribSet, valorSet);
                 }
                 else
                 {
-                    printf("inicia atualizaÁ„o condicional\n");
+                    printf("inicia atualiza√ß√£o condicional\n");
                     strncpy(temp, &cmd[j], i);
                     printf("temp = %s\n", temp);
                     temp[i] = 0;
@@ -956,9 +956,9 @@ int decAtributo(Atributo *a, char *s)
     int i, j = 0;
     char sub[60];
 
-    /* Vari·veis: i -> usada para acessar posiÁıes especÌficas em s.
-    			  j -> usada para acessar posiÁıes especÌficas em s.
-    			  sub -> armazena parte de s para manipulaÁ„o.*/
+    /* Vari√°veis: i -> usada para acessar posi√ß√µes espec√≠ficas em s.
+    			  j -> usada para acessar posi√ß√µes espec√≠ficas em s.
+    			  sub -> armazena parte de s para manipula√ß√£o.*/
 
     i = proxPalavra(s);
     if ((i == 0) || (j >= strlen(s))) return(NOMEATR_FALTANDO);
@@ -984,8 +984,8 @@ int decAtributo(Atributo *a, char *s)
         if ((i == 0) || (j >= strlen(s))) return(0);
         strncpy(sub, &s[j + 1], i);
 
-        sub[i] = 0;		/*Precisamos ler ainda se o atributo È ou n„o chave,*/
-        if (!strcasecmp(sub, "KEY")) a->key = 1;		/*e se a relaÁ„o est·*/
+        sub[i] = 0;		/*Precisamos ler ainda se o atributo √© ou n√£o chave,*/
+        if (!strcasecmp(sub, "KEY")) a->key = 1;		/*e se a rela√ß√£o est√°*/
         else if (!strcasecmp(sub, "ORD")) a->ord = 1;	/*ordenada por ele.*/
         else if (!strcasecmp(sub, "FK"))               /*chave estrangeira.*/
         {
@@ -1034,11 +1034,11 @@ int interpreta(FILE *arq)
     char buffer[300];
     int erro, j = 1;
 
-    /* Vari·veis: buffer -> armazena um comando do arquivo.
+    /* Vari√°veis: buffer -> armazena um comando do arquivo.
     			  erro -> flag de erro na leitura.
     			  j -> contador de comandos.*/
 
-    while (!feof(arq))	/*Enquanto h· comandos no arquivo,*/
+    while (!feof(arq))	/*Enquanto h√° comandos no arquivo,*/
     {
         erro = proxComando(buffer, arq);	/*lemos, */
         normaliza(buffer);
@@ -1048,5 +1048,5 @@ int interpreta(FILE *arq)
         j++;
     }
     fclose(arq);
-    return(0);	/*Se a funÁ„o chega atÈ aqui, n„o houve erros.*/
+    return(0);	/*Se a fun√ß√£o chega at√© aqui, n√£o houve erros.*/
 }
