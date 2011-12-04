@@ -34,7 +34,7 @@
 </CodeBlocks_layout_file>
 [Editors]
 Focused=10
-Order=-1,10,9,5,1,8,7,4,2,0,6,3
+Order=10,9,5,1,8,7,4,2,0,6,3
 [Editor_0]
 Open=1
 Top=0
@@ -73,7 +73,7 @@ LeftChar=1
 [Editor_5]
 Open=1
 Top=0
-CursorCol=32
+CursorCol=17
 CursorRow=660
 TopLine=648
 LeftChar=1
@@ -101,7 +101,7 @@ LeftChar=1
 [Editor_9]
 Open=1
 Top=0
-CursorCol=66
+CursorCol=64
 CursorRow=67
 TopLine=47
 LeftChar=1
